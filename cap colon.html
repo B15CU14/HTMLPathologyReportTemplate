@@ -263,191 +263,171 @@ inflammation)</label>
     </div>
 
     <script>
-
         function toggleSub(containerId, show) {
-                const container = document.getElementById(containerId);
-                    if (!container) return; // Safety check
-                    container.style.display = show ? 'block' : 'none';
-                    
-                    // If hiding, clear all inputs within the container
-                    if (!show) {
-                        const subInputs = container.querySelectorAll('input');
-                        subInputs.forEach(input => {
-                            if (input.type === 'checkbox' || input.type === 'radio') {
-                                input.checked = false; // Uncheck boxes/radios
-                            } else {
-                                input.value = ''; // Clear text/number values
-                            }
-                        });
-                    }   
-                }
-        
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.style.display = show ? 'block' : 'none';
+            if (!show) {
+                const subInputs = container.querySelectorAll('input');
+                subInputs.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+            }
+        }
 
         function resetOtherInputs(element) {
-                // Find all radio buttons in the same group (same 'name' attribute)
-                const radioGroup = document.getElementsByName(element.name);
-                radioGroup.forEach(radio => {
-                    // If this is NOT the radio we just clicked
-                    if (radio !== element) {
-                        // Find the container (the question-block)
-                        const parentBlock = element.closest('.question-block');
-                        // Specifically find text/number inputs that are siblings of the other radios
-                        // or inside the same label as the other radios
-                        const otherInput = radio.parentElement.querySelector('input[type="text"], input[type="number"]');
-                        if (otherInput) {
-                            otherInput.value = ''; // Clear the text
+            // Ensure we can iterate the radio group safely
+            const radioGroup = Array.from(document.getElementsByName(element.name));
+            radioGroup.forEach(radio => {
+                if (radio === element) return;
+                const otherInput = radio.parentElement.querySelector('input[type="text"], input[type="number"]');
+                if (otherInput) otherInput.value = '';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('capForm');
+            const reportList = document.getElementById('synopticList');
+            const inputs = form.querySelectorAll('input');
+
+            function calculatePN() {
+                const metaInput = document.getElementById('ln_meta');
+                const positiveNodes = parseInt(metaInput.value);
+                const tumorDepositsInput = document.getElementsByName('TumorDepositsNum')[0];
+                const tumorDepositsNum = parseInt(tumorDepositsInput && tumorDepositsInput.value) || 0;
+
+                if (!isNaN(positiveNodes)) {
+                    document.getElementById('ln_ratio_radio').checked = true;
+                }
+
+                let targetId = "";
+                if (positiveNodes === 0) {
+                    targetId = tumorDepositsNum === 0 ? "pN0" : "pN1c";
+                } else if (positiveNodes === 1) {
+                    targetId = "pN1a";
+                } else if (positiveNodes >= 2 && positiveNodes <= 3) {
+                    targetId = "pN1b";
+                } else if (positiveNodes >= 4 && positiveNodes <= 6) {
+                    targetId = "pN2a";
+                } else if (positiveNodes >= 7) {
+                    targetId = "pN2b";
+                }
+
+                if (targetId) {
+                    const radioToSelect = document.getElementById(targetId);
+                    if (radioToSelect) radioToSelect.checked = true;
+                }
+            }
+
+            function updateReport() {
+                reportList.innerHTML = '';
+                const data = {};
+
+                inputs.forEach(input => {
+                    const label = input.getAttribute('data-label');
+                    if (!label) return;
+
+                    if (input.type === 'radio' && input.checked) {
+                        if (!data[label]) data[label] = [];
+                        let val = input.value;
+                        const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                        if (hasText) {
+                            const textInput = input.parentElement.querySelector('input[type="text"], input[type="number"]');
+                            const textValue = textInput ? textInput.value.trim() : "";
+                            if (label === "Margin Status" && val === "Invasive carcinoma present at margin") {
+                                val = textValue ? `Present of tumor at ${textValue} margin` : val;
+                            } else if (textValue) {
+                                val = (val.toLowerCase() === 'other') ? textValue : `${val}: ${textValue}`;
+                            }
+                        }
+                        data[label].unshift(val);
+                    } else if (input.type === 'checkbox' && input.checked) {
+                        if (!data[label]) data[label] = [];
+                        if (input.name === 'Specimen') {
+                            if (input.value === 'Other') {
+                                const otherValElem = document.querySelector('input[name="organ-other"]');
+                                const otherVal = otherValElem ? otherValElem.value.trim() : '';
+                                if (otherVal) data[label].push(otherVal);
+                            } else {
+                                data[label].push(input.value);
+                            }
+                        } else {
+                            data[label].push(input.value);
                         }
                     }
-                })}
-        
-        document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('capForm');
-        const reportList = document.getElementById('synopticList');
-        const inputs = form.querySelectorAll('input');
+                });
 
-    // --- 1. THE CALCULATION LOGIC ---
-    function calculatePN() {
-        const metaInput = document.getElementById('ln_meta');
-        const positiveNodes = parseInt(metaInput.value);
-        
-        // Get tumor deposits count for pN1c logic
-        const tumorDepositsInput = document.getElementsByName('TumorDepositsNum')[0];
-        const tumorDepositsNum = parseInt(tumorDepositsInput.value) || 0;
+                // Special Ratio Logic
+                const metaInput = document.getElementById('ln_meta');
+                const totalInput = document.getElementById('ln_total');
+                const ratioRadio = document.getElementById('ln_ratio_radio');
+                if (ratioRadio && ratioRadio.checked) {
+                    const pos = metaInput ? (metaInput.value || "0") : "0";
+                    const tot = totalInput ? (totalInput.value || "0") : "0";
+                    data["Lymph node metastasis"] = `${pos}/${tot}`;
+                }
 
-        // Auto-check the ratio radio button if user starts typing numbers
-        if (!isNaN(positiveNodes)) {
-            document.getElementById('ln_ratio_radio').checked = true;
-        }
+                // Other standalone text/number inputs
+                inputs.forEach(input => {
+                    if ((input.type === 'text' || input.type === 'number') &&
+                        !input.classList.contains('has-text') &&
+                        !input.parentElement.classList.contains('has-text') &&
+                        input.id !== 'ln_meta' && input.id !== 'ln_total' &&
+                        input.name !== 'organ-other' && input.name !== 'Histology_Other') {
 
-        let targetId = "";
-        if (positiveNodes === 0) 
-         { if (tumorDepositsNum === 0) { targetId = "pN0"; } else { targetId = "pN1c"; } }
-            
-        else if (positiveNodes === 1) { targetId = "pN1a"; }
-        else if (positiveNodes >= 2 && positiveNodes <= 3) { targetId = "pN1b"; } 
-        else if (positiveNodes >= 4 && positiveNodes <= 6) { targetId = "pN2a"; } 
-        else if (positiveNodes >= 7) { targetId = "pN2b"; }
-        
-        if (targetId) {
-            const radioToSelect = document.getElementById(targetId);
-            if (radioToSelect) radioToSelect.checked = true;
-        }
-    }
-
-    // --- 2. THE REPORT GENERATION LOGIC ---
-    function updateReport() {
-        reportList.innerHTML = ''; 
-        const data = {};
-        
-        inputs.forEach(input => {
-            const label = input.getAttribute('data-label');
-            if (!label) return;
-
-            // Handle Radios
-            if (input.type === 'radio' && input.checked) {
-                if (!data[label]) data[label] = [];
-                
-                let val = input.value;
-                const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
-                
-                if (hasText) {
-                    const textInput = input.parentElement.querySelector('input[type="text"], input[type="number"]');
-                    const textValue = textInput ? textInput.value : "";
-
-                    // Check specifically for the Margin Status label to apply your custom sentence
-                    if (label === "Margin Status" && val === "Invasive carcinoma present at margin") {
-                        val = `Present of tumor at ${textValue} margin`; // This is your Python f-string equivalent
-                    } else if (textInput && textInput.value) {
-                        // Standard formatting for other 'has-text' fields
-                        val = (val.toLowerCase() === 'other') ? textValue : `${val}: ${textValue}`;
+                        const label = input.getAttribute('data-label');
+                        if (input.value && label) {
+                            data[label] = input.value;
+                        }
                     }
-                data[label].unshift(val);
-            }}}
+                });
 
-            // Handle Checkboxes
-            else if (input.type === 'checkbox' && input.checked) {
-                if (!data[label]) data[label] = [];
+                // Construct output
+                if (data['Specimen']) {
+                    const items = data['Specimen'].map(i => i.toLowerCase());
+                    let sentence = (items.length === 1) ? items[0] :
+                        (items.length === 2) ? items.join(' and ') :
+                        items.slice(0, -1).join(', ') + ', and ' + items.slice(-1);
+                    sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+                    const headerLi = document.createElement('li');
+                    headerLi.className = 'synoptic-item';
+                    headerLi.style.listStyleType = 'none';
+                    headerLi.innerHTML = `${sentence}, resection:`;
+                    reportList.appendChild(headerLi);
+                    delete data['Specimen'];
+                }
 
-                if (input.name === 'Specimen') {
-                    if (input.value === 'Other') {
-                        const otherVal = document.querySelector('input[name="organ-other"]').value;
-                        if (otherVal) data[label].push(otherVal);
-                    } else {
-                        data[label].push(input.value);
-                    }
+                if (Object.keys(data).length === 0 && reportList.childNodes.length === 0) {
+                    reportList.innerHTML = '<li class="synoptic-item">No data selected.</li>';
                 } else {
-                    data[label].push(input.value);
+                    for (const [key, value] of Object.entries(data)) {
+                        const li = document.createElement('li');
+                        li.className = 'synoptic-item';
+                        let displayValue = Array.isArray(value) ? value.join(', ') : value;
+                        li.innerHTML = `<strong>${key}:</strong> ${displayValue}`;
+                        reportList.appendChild(li);
+                    }
                 }
             }
-        });
 
-        // Special Ratio Logic: Ensure "Lymph node metastasis" shows up
-        const metaInput = document.getElementById('ln_meta');
-        const totalInput = document.getElementById('ln_total');
-        const ratioRadio = document.getElementById('ln_ratio_radio');
+            // Event listeners
+            inputs.forEach(input => {
+                input.addEventListener('change', updateReport);
+                input.addEventListener('input', () => {
+                    if (input.id === 'ln_meta' || input.name === 'TumorDepositsNum') {
+                        calculatePN();
+                    }
+                    updateReport();
+                });
+            });
 
-        if (ratioRadio && ratioRadio.checked) {
-            const pos = metaInput.value || "0";
-            const tot = totalInput.value || "0";
-            data["Lymph node metastasis"] = `${pos}/${tot}`;
-        }
-
-        // Process other standalone text/number inputs
-        inputs.forEach(input => {
-            if ((input.type === 'text' || input.type === 'number') && 
-                !input.classList.contains('has-text') &&
-                !input.parentElement.classList.contains('has-text') &&
-                input.id !== 'ln_meta' && input.id !== 'ln_total' &&
-                input.name !== 'organ-other' && input.name !== 'Histology_Other') {
-                
-                const label = input.getAttribute('data-label');
-                if (input.value && label) {
-                    data[label] = input.value;
-                }
-            }
-        });
-
-        // Construct the HTML Output
-        if (data['Specimen']) {
-            const items = data['Specimen'].map(i => i.toLowerCase());
-            let sentence = (items.length === 1) ? items[0] : 
-                           (items.length === 2) ? items.join(' and ') : 
-                           items.slice(0, -1).join(', ') + ', and ' + items.slice(-1);
-
-            sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
-            const headerLi = document.createElement('li');
-            headerLi.className = 'synoptic-item';
-            headerLi.style.listStyleType = 'none';
-            headerLi.innerHTML = `${sentence}, resection:`;
-            reportList.appendChild(headerLi);
-            delete data['Specimen'];
-        }
-
-        if (Object.keys(data).length === 0 && reportList.childNodes.length === 0) {
-            reportList.innerHTML = '<li class="synoptic-item">No data selected.</li>';
-        } else {
-            for (const [key, value] of Object.entries(data)) {
-                const li = document.createElement('li');
-                li.className = 'synoptic-item';
-                let displayValue = Array.isArray(value) ? value.join(', ') : value;
-                li.innerHTML = `<strong>${key}:</strong> ${displayValue}`;
-                reportList.appendChild(li);
-            }
-        }
-    }
-
-    // --- 3. EVENT LISTENERS ---
-    inputs.forEach(input => {
-        input.addEventListener('change', updateReport);
-        input.addEventListener('input', () => {
-            // If the user changes lymph nodes or tumor deposits, recalculate pN
-            if (input.id === 'ln_meta' || input.name === 'TumorDepositsNum') {
-                calculatePN();
-            }
+            // Initial render
             updateReport();
         });
-    });
-});
     </script>
 </body>
 </html>
