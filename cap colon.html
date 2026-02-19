@@ -13,7 +13,7 @@
         .question-label { font-weight: bold; display: block; margin-bottom: 5px; }
         .sub-question {margin-left: 30px; padding: 10px;border-left: 2px solid #ccc;background-color: #f9f9f9;margin-top: 5px;}
         label { display: block; margin-bottom: 5px; cursor: pointer; }
-        input[type="text"], input[type="number"] { padding: 5px; width: 200px; margin-left: 10px; }
+        input[type="text"], input[type="number"] { padding: 5px; width:auto; margin-left: 10px; }
         .synoptic-container { background-color: #e8f6f3; padding: 20px; border: 2px solid #1abc9c; margin-top: 40px; border-radius: 8px; }
         .synoptic-title { font-size: 1.5em; font-weight: bold; color: #16a085; margin-bottom: 15px; }
         ul.synoptic-list { list-style-type: disc; padding-left: 20px; }
@@ -42,31 +42,31 @@
             <label><input type="checkbox" name="Specimen" value="Rectosigmoid" data-label="Specimen"> Rectosigmoid</label>
             <label><input type="checkbox" name="Specimen" value="Rectum" data-label="Specimen" onclick="toggleSub('Rectum tumor only', this.checked)"> Rectum</label>   
                 <div id="rectum-part" class="sub-question" style="display: true;">
-                    <label><input type="checkbox" name="Specimen" value="Upper rectum" onclick="toggleSub('Rectum tumor only', this.checked)"> Upper rectum</label>
-                    <label><input type="checkbox" name="Specimen" value="Middle rectum" onclick="toggleSub('Rectum tumor only', this.checked)"> Middle rectum</label>
-                    <label><input type="checkbox" name="Specimen" value="Lower rectum" onclick="toggleSub('Rectum tumor only', this.checked)"> Lower rectum</label>
+                    <label><input type="checkbox" name="Specimen" value="Upper rectum" data-label="Specimen" onclick="toggleSub('Rectum tumor only', this.checked)"> Upper rectum</label>
+                    <label><input type="checkbox" name="Specimen" value="Middle rectum" data-label="Specimen" onclick="toggleSub('Rectum tumor only', this.checked)"> Middle rectum</label>
+                    <label><input type="checkbox" name="Specimen" value="Lower rectum" data-label="Specimen" onclick="toggleSub('Rectum tumor only', this.checked)"> Lower rectum</label>
                 </div>
             <label><input type="checkbox" name="Specimen" value="Omentum" data-label="Specimen"> Omentum</label>
-            <label><input type="checkbox" name="Specimen" value="Other" data-label="Other" class="has-text"> Other<input type="text" name="organ-other"></label>
+            <label><input type="checkbox" name="Specimen" value="Other" data-label="Specimen" class="has-text"> Other<input type="text" name="organ-other"></label>
         </div>
         
               
         <h2>Tumor</h2>
         <div class="question-block">
             <span class="question-label">Histologic Type</span>
-            <label><input type="radio" name="Histology" value="Adenocarcinoma" data-label="Histologic Type"> Adenocarcinoma</label>
-            <label><input type="radio" name="Histology" value="Mucinous adenocarcinoma" data-label="Histologic Type"> Mucinous adenocarcinoma</label>
-            <label><input type="radio" name="Histology" value="Poorly cohesive carcinoma" data-label="Histologic Type"> Poorly cohesive carcinoma</label>
-            <label><input type="radio" name="Histology" value="Signet-ring cell carcinoma" data-label="Histologic Type"> Signet-ring cell carcinoma</label>
-            <label><input type="radio" name="Histology" value="Medullary carcinoma" data-label="Histologic Type"> Medullary carcinoma</label>
-            <label><input type="radio" name="Histology" value="Serrated adenocarcinoma" data-label="Histologic Type"> Serrated adenocarcinoma</label>
-            <label><input type="radio" name="Histology" value="Micropapillary adenocarcinoma" data-label="Histologic Type"> Micropapillary adenocarcinoma</label>
-            <label><input type="radio" name="Histology" value="Adenoma-like adenocarcinoma" data-label="Histologic Type"> Adenoma-like adenocarcinoma</label>
-            <label><input type="radio" name="Histology" value="Adenosquamous carcinoma" data-label="Histologic Type"> Adenosquamous carcinoma</label>
-            <label><input type="radio" name="Histology" value="Undifferentiated carcinoma, NOS" data-label="Histologic Type"> Undifferentiated carcinoma, NOS</label>
-            <label><input type="radio" name="Histology" value="Carcinoma with sarcomatoid component" data-label="Histologic Type"> Carcinoma with sarcomatoid component</label>
-            <label><input type="radio" name="Histology" value="Large cell neuroendocrine carcinoma" data-label="Histologic Type"> Large cell neuroendocrine carcinoma</label>
-            <label><input type="radio" name="Histology" value="Small cell neuroendocrine carcinoma" data-label="Histologic Type"> Small cell neuroendocrine carcinoma</label>
+            <label><input type="radio" name="Histology" value="Adenocarcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Adenocarcinoma</label>
+            <label><input type="radio" name="Histology" value="Mucinous adenocarcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Mucinous adenocarcinoma</label>
+            <label><input type="radio" name="Histology" value="Poorly cohesive carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Poorly cohesive carcinoma</label>
+            <label><input type="radio" name="Histology" value="Signet-ring cell carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Signet-ring cell carcinoma</label>
+            <label><input type="radio" name="Histology" value="Medullary carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Medullary carcinoma</label>
+            <label><input type="radio" name="Histology" value="Serrated adenocarcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Serrated adenocarcinoma</label>
+            <label><input type="radio" name="Histology" value="Micropapillary adenocarcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Micropapillary adenocarcinoma</label>
+            <label><input type="radio" name="Histology" value="Adenoma-like adenocarcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Adenoma-like adenocarcinoma</label>
+            <label><input type="radio" name="Histology" value="Adenosquamous carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Adenosquamous carcinoma</label>
+            <label><input type="radio" name="Histology" value="Undifferentiated carcinoma, NOS" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Undifferentiated carcinoma, NOS</label>
+            <label><input type="radio" name="Histology" value="Carcinoma with sarcomatoid component" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Carcinoma with sarcomatoid component</label>
+            <label><input type="radio" name="Histology" value="Large cell neuroendocrine carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Large cell neuroendocrine carcinoma</label>
+            <label><input type="radio" name="Histology" value="Small cell neuroendocrine carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Small cell neuroendocrine carcinoma</label>
             <label><input type="radio" name="Histology" value="Other" data-label="Histologic Type" class="has-text"> Other: <input type="text" name="Histology_Other"></label>
         </div>
 
@@ -81,9 +81,10 @@
 
         <div class="question-block">
             <span class="question-label">Tumor Size</span>
-            <label> In cm: <input type="text" name="TumorSize" data-label="Tumor Size (cm)"></label>
-            <label><input type="checkbox" name="TumorSizeCheck" value="Cannot be determined" data-label="Tumor Size"> Cannot be determined</label>
+            <label><input type="radio" name="TumorSizeCheck" value="sizeAvailable" data-label="Tumor Size"> in cm =<input type="text" name="TumorSize" data-label="Tumor Size (cm)"></label>
+            <label><input type="radio" name="TumorSizeCheck" value="Cannot be determined" data-label="Tumor Size" onclick="resetOtherInputs(this)"> Cannot be determined</label>
         </div>
+
         <div class="question-block">
             <span class="question-label">Tumor Site (Select all that apply)</span>
             <label><input type="checkbox" name="TumorSite" value="Cecum" data-label="Tumor Site"> Cecum</label>
@@ -118,14 +119,14 @@
 
         <div class="question-block">
             <span class="question-label">Tumor Extent</span>
-            <label><input type="radio" name="Extent" value="No invasion (high-grade dysplasia)" data-label="Tumor Extent"> No invasion (high-grade dysplasia)</label>
-            <label><input type="radio" name="Extent" value="Invades submucosa" data-label="Tumor Extent"> Invades submucosa</label>
-            <label><input type="radio" name="Extent" value="Invades into muscularis propria" data-label="Tumor Extent"> Invades into muscularis propria</label>
-            <label><input type="radio" name="Extent" value="Invades through muscularis propria into pericolic/perirectal tissue" data-label="Tumor Extent"> Invades through muscularis propria into pericolic/perirectal tissue</label>
-            <label><input type="radio" name="Extent" value="Invades visceral peritoneum" data-label="Tumor Extent"> Invades visceral peritoneum (including tumor continuous with serosal surface through area of
+            <label><input type="radio" name="Extent" value="No invasion (high-grade dysplasia)" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> No invasion (high-grade dysplasia)</label>
+            <label><input type="radio" name="Extent" value="Invades submucosa" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Invades submucosa</label>
+            <label><input type="radio" name="Extent" value="Invades into muscularis propria" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Invades into muscularis propria</label>
+            <label><input type="radio" name="Extent" value="Invades through muscularis propria into pericolic/perirectal tissue" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Invades through muscularis propria into pericolic/perirectal tissue</label>
+            <label><input type="radio" name="Extent" value="Invades visceral peritoneum" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Invades visceral peritoneum (including tumor continuous with serosal surface through area of
 inflammation)</label>
             <label><input type="radio" name="Extent" value="Directly invades adjacent structure(s)" data-label="Tumor Extent" class="has-text"> Directly invades adjacent structure(s): <input type="text" name="Extent_Structure"></label>
-            <label><input type="radio" name="Extent" value="Cannot be determined" data-label="Tumor Extent"> Cannot be determined</label>
+            <label><input type="radio" name="Extent" value="Cannot be determined" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Cannot be determined</label>
         </div>
 
         <div class="question-block">
@@ -137,22 +138,19 @@ inflammation)</label>
 
         <div class="question-block">
             <span class="question-label">Lymphatic and/or Vascular Invasion (LVI)</span>
-    
-            <label><input type="radio" name="LVI" value="Not identified" onclick="toggleSub('lvi-details', false)">Not identified</label>
-            <label><input type="radio" name="LVI" value="Present" onclick="toggleSub('lvi-details', true)">Present</label>
+            <label><input type="radio" name="LVI" value="Not identified" data-label="Lymphovascular invasion" onclick="toggleSub('lvi-details', false)">Not identified</label>
+            <label><input type="radio" name="LVI" value="Present" data-label="Lymphovascular invasion" onclick="toggleSub('lvi-details', true)">Present</label>
                 <div id="lvi-details" class="sub-question" style="display: none;">
-                    <span class="question-label">Type of Invasion:</span>
-                    <label><input type="checkbox" name="LVI_Type" value="Small vessel"> Small vessel</label>
-                    <label><input type="checkbox" name="LVI_Type" value="Large vessel, intramural"> Large vessel, intramural</label>
-                    <label><input type="checkbox" name="LVI_Type" value="Large vessel, extramural"> Large vessel, extramural</label>
+                    <label><input type="checkbox" name="LVI" value="Small vessel" data-label="Lymphovascular invasion"> Small vessel</label>
+                    <label><input type="checkbox" name="LVI" value="Large vessel, intramural" data-label="Lymphovascular invasion"> Large vessel, intramural</label>
+                    <label><input type="checkbox" name="LVI" value="Large vessel, extramural" data-label="Lymphovascular invasion"> Large vessel, extramural</label>
                 </div>
         </div>
 
         <div class="question-block">
             <span class="question-label">Perineural Invasion</span>
-            <label><input type="radio" name="PNI" value="Not identified" data-label="Perineural Invasion"> Not identified</label>
-            <label><input type="radio" name="PNI" value="Present" data-label="Perineural Invasion"> Present</label>
-            <label><input type="radio" name="PNI" value="Cannot be determined" data-label="Perineural Invasion"> Cannot be determined</label>
+            <label><input type="radio" name="PNI" value="Not identified" data-label="Perineural Invasion" onclick="resetOtherInputs(this)"> Not identified</label>
+            <label><input type="radio" name="PNI" value="Present" data-label="Perineural Invasion" onclick="resetOtherInputs(this)"> Present</label>
         </div>
 
         <div class="question-block">
@@ -167,8 +165,7 @@ inflammation)</label>
         <h2>Margins</h2>
 
         <div class="question-block">
-            <span class="question-label">Margin Status for Invasive Carcinoma</span>
-            <label><input type="radio" name="MarginStatus" value="All margins negative" data-label="Margin Status" onclick="toggleSub('Negative_margin', true)"> All margins negative for invasive carcinoma</label>
+            <label><input type="radio" name="MarginStatus" value="All margins negative" data-label="Margin Status" onclick="toggleSub('Negative_margin', true); resetOtherInputs(this)"> All margins negative for invasive carcinoma</label>
                 <div id="Negative_margin" class="sub-question" style ="display: none;">
                     <span class="question-label">Closest Margin(s) to Invasive Carcinoma</span>
                         <label><input type="checkbox" name="ClosestMargin" value="Proximal" data-label="Closest Margin"> Proximal</label>
@@ -180,24 +177,28 @@ inflammation)</label>
                     <span class="question-label">Distance to Closest Margin</span>
                         <label>cm: <input type="text" name="MarginDistance" data-label="Distance to Closest Margin"></label>
                 </div>
-            <label><input type="radio" name="MarginStatus" value="Invasive carcinoma present at margin" data-label="Margin Status" class="has-text" onclick="toggleSub('Negative_margin', false)"> Invasive carcinoma present at<input type="text" name="Positive margin"> margin</label>
+            <label class="has-text"><input type="radio" name="MarginStatus" value="Invasive carcinoma present at margin" data-label="Margin Status" class="has-text" onclick="toggleSub('Negative_margin', false)"> Invasive carcinoma present at<input type="text" name="Positive margin"> margin</label>
         </div>
 
         
 
         <h2>Regional Lymph Nodes</h2>
-
         <div class="question-block">
             <span class="question-label">Regional Lymph Node Status</span>
-            <label><input type="radio" name="LNStatus" value="Node_submitted" data-label="LN Status">
-                <input type="text" name="LNStatus" data-label="pos_node" size="10">/<input type="text" name="LNStatus" data-label="all_node" size="10"></label>
-            <label><input type="radio" name="LNStatus" value="Not applicable" data-label="LN Status"> Not applicable</label>
+            <label>
+                <input type="radio" name="LN_Radio" data-label="Lymph node metastasis" id="ln_ratio_radio">
+                <input type="text" id="ln_meta" name="LNStatus_Meta" placeholder="Positive" size="3" oninput="calculatePN()"> / 
+                <input type="text" id="ln_total" name="LNStatus_Total" placeholder="Total" size="3">
+            </label>
+            <label>
+                <input type="radio" name="LN_Radio" value="Not applicable" data-label="Lymph node metastasis" onclick="resetOtherInputs(this)"> Not applicable
+            </label>
         </div>
 
         <div class="question-block">
             <span class="question-label">Tumor Deposits</span>
-            <label><input type="radio" name="TumorDeposits" value="Not identified" data-label="Tumor Deposits"> Not identified</label>
-            <label><input type="radio" name="TumorDeposits" value="Present" data-label="Tumor Deposits" class="has-text"> Present (Specify number): <input type="number" name="TumorDepositsNum"></label>
+            <label><input type="radio" name="TumorDeposits" value="Not identified" data-label="Tumor Deposits"onclick="resetOtherInputs(this)"> Not identified</label>
+            <label><input type="radio" name="TumorDeposits" value="Present" data-label="Tumor Deposits" class="has-text"> Present<input type="text" name="TumorDepositsNum" placeholder="Specify number" size="9"></label>
         </div>
 
 
@@ -231,14 +232,14 @@ inflammation)</label>
             <label><input type="radio" name="pT" value="pT4b: Directly invades adjacent organs" data-label="pT Category"> pT4b: Directly invades adjacent organs</label>
         </div>
 
-        <div class="question-block">
+        <div class="question-block" id="pn-category-section">
             <span class="question-label">pN Category</span>
-            <label><input type="radio" name="pN" value="pN0: No regional LN metastasis" data-label="pN Category"> pN0: No regional LN metastasis</label>
-            <label><input type="radio" name="pN" value="pN1a: 1 positive node" data-label="pN Category"> pN1a: 1+ve node</label>
-            <label><input type="radio" name="pN" value="pN1b: 2-3 positive nodes" data-label="pN Category"> pN1b: 2-3+ve nodes</label>
-            <label><input type="radio" name="pN" value="pN1c: Tumor deposits only (no LN+)" data-label="pN Category"> pN1c: Tumor deposits only (no LN+)</label>
-            <label><input type="radio" name="pN" value="pN2a: 4-6 positive nodes" data-label="pN Category"> pN2a: 4-6 +ve nodes</label>
-            <label><input type="radio" name="pN" value="pN2b: 7 or more positive nodes" data-label="pN Category"> pN2b: >= 7 +ve nodes</label>
+            <label><input type="radio" name="pN" id = "pN0" value="pN0: No regional LN metastasis" data-label="pN Category"> pN0: No regional LN metastasis</label>
+            <label><input type="radio" name="pN" id = "pN1a" value="pN1a: 1 positive node" data-label="pN Category"> pN1a: 1+ve node</label>
+            <label><input type="radio" name="pN" id = "pN1b" value="pN1b: 2-3 positive nodes" data-label="pN Category"> pN1b: 2-3+ve nodes</label>
+            <label><input type="radio" name="pN" id = "pN1c" value="pN1c: Tumor deposits only (no LN+)" data-label="pN Category"> pN1c: Tumor deposits only (no LN+)</label>
+            <label><input type="radio" name="pN" id = "pN2a" value="pN2a: 4-6 positive nodes" data-label="pN Category"> pN2a: 4-6 +ve nodes</label>
+            <label><input type="radio" name="pN" id = "pN2b" value="pN2b: 7 or more positive nodes" data-label="pN Category"> pN2b: >= 7 +ve nodes</label>
             <label><input type="radio" name="pN" value="Not applicable / Cannot be determined" data-label="pN Category"> Not applicable / Cannot be determined</label>
         </div>
 
@@ -264,110 +265,189 @@ inflammation)</label>
     <script>
 
         function toggleSub(containerId, show) {
-                    const container = document.getElementById(containerId);
+                const container = document.getElementById(containerId);
                     if (!container) return; // Safety check
                     container.style.display = show ? 'block' : 'none';
-                    // If hiding, uncheck all child inputs and trigger their change events if needed
+                    
+                    // If hiding, clear all inputs within the container
                     if (!show) {
                         const subInputs = container.querySelectorAll('input');
                         subInputs.forEach(input => {
-                            input.checked = false;
-                        });
-                    }
-                }
-            document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('capForm');
-            const reportList = document.getElementById('synopticList');
-            const inputs = form.querySelectorAll('input');
-
-            function updateReport() {
-            reportList.innerHTML = ''; 
-            const data = {};
-            let synopticHeader = ""; // Variable to hold our special Header
-            
-            inputs.forEach(input => {
-                // 1. Handle Checkboxes
-                if (input.type === 'checkbox') {
-                    if (input.checked) {
-                        const label = input.getAttribute('data-label');
-                        if (!data[label]) data[label] = [];
-                        
-                        // Logic for Specimen (Header)
-                        if (input.name === 'Specimen') {
-                            if (input.value === 'Other') {
-                                const otherVal = document.querySelector('input[name="organ-other"]').value;
-                                if (otherVal) data[label].push(otherVal);
+                            if (input.type === 'checkbox' || input.type === 'radio') {
+                                input.checked = false; // Uncheck boxes/radios
                             } else {
-                                data[label].push(input.value);
+                                input.value = ''; // Clear text/number values
                             }
-                        } else {
-                            data[label].push(input.value);
+                        });
+                    }   
+                }
+        
+
+        function resetOtherInputs(element) {
+                // Find all radio buttons in the same group (same 'name' attribute)
+                const radioGroup = document.getElementsByName(element.name);
+                radioGroup.forEach(radio => {
+                    // If this is NOT the radio we just clicked
+                    if (radio !== element) {
+                        // Find the container (the question-block)
+                        const parentBlock = element.closest('.question-block');
+                        // Specifically find text/number inputs that are siblings of the other radios
+                        // or inside the same label as the other radios
+                        const otherInput = radio.parentElement.querySelector('input[type="text"], input[type="number"]');
+                        if (otherInput) {
+                            otherInput.value = ''; // Clear the text
                         }
                     }
-                }
-                // 2. Handle Radios
-                else if (input.type === 'radio' && input.checked) {
-                    const label = input.getAttribute('data-label');
-                    let val = input.value;
-                    if (input.parentElement.classList.contains('has-text')) {
-                        const textInput = input.parentElement.querySelector('input[type="text"], input[type="number"]');
-                        if (textInput && textInput.value) val += ': ' + textInput.value;
-                    }
-                    data[label] = val;
-                }
-                // 3. Handle Standalone Text (EXCLUDING the Specimen 'Other' box)
-                else if ((input.type === 'text' || input.type === 'number') && 
-                        !input.parentElement.classList.contains('has-text')) {
-                    // BUG FIX: Explicitly ignore 'organ-other' and 'Histology_Other' if they are handled elsewhere
-                    if (input.value && input.name !== 'organ-other' && input.getAttribute('data-label')) {
-                        data[input.getAttribute('data-label')] = input.value;
-                    }
-                }
-            });
+                })}
+        
+        document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('capForm');
+        const reportList = document.getElementById('synopticList');
+        const inputs = form.querySelectorAll('input');
 
-            // --- CONSTRUCT THE REPORT ---
+    // --- 1. THE CALCULATION LOGIC ---
+    function calculatePN() {
+        const metaInput = document.getElementById('ln_meta');
+        const positiveNodes = parseInt(metaInput.value);
+        
+        // Get tumor deposits count for pN1c logic
+        const tumorDepositsInput = document.getElementsByName('TumorDepositsNum')[0];
+        const tumorDepositsNum = parseInt(tumorDepositsInput.value) || 0;
 
-            // 1. Handle the Specimen Header first
-            if (data['Specimen']) {
-                const items = data['Specimen'].map(i => i.toLowerCase());
-                let sentence = "";
-                if (items.length === 1) sentence = items[0];
-                else if (items.length === 2) sentence = items.join(' and ');
-                else sentence = items.slice(0, -1).join(', ') + ', and ' + items.slice(-1);
+        // Auto-check the ratio radio button if user starts typing numbers
+        if (!isNaN(positiveNodes)) {
+            document.getElementById('ln_ratio_radio').checked = true;
+        }
 
-                sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+        let targetId = "";
+        if (positiveNodes === 0) 
+         { if (tumorDepositsNum === 0) { targetId = "pN0"; } else { targetId = "pN1c"; } }
+            
+        else if (positiveNodes === 1) { targetId = "pN1a"; }
+        else if (positiveNodes >= 2 && positiveNodes <= 3) { targetId = "pN1b"; } 
+        else if (positiveNodes >= 4 && positiveNodes <= 6) { targetId = "pN2a"; } 
+        else if (positiveNodes >= 7) { targetId = "pN2b"; }
+        
+        if (targetId) {
+            const radioToSelect = document.getElementById(targetId);
+            if (radioToSelect) radioToSelect.checked = true;
+        }
+    }
+
+    // --- 2. THE REPORT GENERATION LOGIC ---
+    function updateReport() {
+        reportList.innerHTML = ''; 
+        const data = {};
+        
+        inputs.forEach(input => {
+            const label = input.getAttribute('data-label');
+            if (!label) return;
+
+            // Handle Radios
+            if (input.type === 'radio' && input.checked) {
+                if (!data[label]) data[label] = [];
                 
-                const headerLi = document.createElement('li');
-                headerLi.className = 'synoptic-item';
-                headerLi.style.listStyleType = 'none'; // No bullet
-                headerLi.innerHTML = `${sentence}, resection:`;
-                reportList.appendChild(headerLi);
+                let val = input.value;
+                const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
                 
-                delete data['Specimen']; // Remove so it doesn't double-print in the loop below
+                if (hasText) {
+                    const textInput = input.parentElement.querySelector('input[type="text"], input[type="number"]');
+                    const textValue = textInput ? textInput.value : "";
+
+                    // Check specifically for the Margin Status label to apply your custom sentence
+                    if (label === "Margin Status" && val === "Invasive carcinoma present at margin") {
+                        val = `Present of tumor at ${textValue} margin`; // This is your Python f-string equivalent
+                    } else if (textInput && textInput.value) {
+                        // Standard formatting for other 'has-text' fields
+                        val = (val.toLowerCase() === 'other') ? textValue : `${val}: ${textValue}`;
+                    }
+                data[label].unshift(val);
+            }}}
+
+            // Handle Checkboxes
+            else if (input.type === 'checkbox' && input.checked) {
+                if (!data[label]) data[label] = [];
+
+                if (input.name === 'Specimen') {
+                    if (input.value === 'Other') {
+                        const otherVal = document.querySelector('input[name="organ-other"]').value;
+                        if (otherVal) data[label].push(otherVal);
+                    } else {
+                        data[label].push(input.value);
+                    }
+                } else {
+                    data[label].push(input.value);
+                }
             }
+        });
 
-            // 2. Handle everything else
-            if (Object.keys(data).length === 0 && reportList.childNodes.length === 0) {
-                reportList.innerHTML = '<li class="synoptic-item">No data selected.</li>';
-            } else {
-                for (const [key, value] of Object.entries(data)) {
-                    const li = document.createElement('li');
-                    li.className = 'synoptic-item';
-                    let displayValue = Array.isArray(value) ? value.join(', ') : value;
-                    li.innerHTML = `<strong>${key}:</strong> ${displayValue}`;
-                    reportList.appendChild(li);
+        // Special Ratio Logic: Ensure "Lymph node metastasis" shows up
+        const metaInput = document.getElementById('ln_meta');
+        const totalInput = document.getElementById('ln_total');
+        const ratioRadio = document.getElementById('ln_ratio_radio');
+
+        if (ratioRadio && ratioRadio.checked) {
+            const pos = metaInput.value || "0";
+            const tot = totalInput.value || "0";
+            data["Lymph node metastasis"] = `${pos}/${tot}`;
+        }
+
+        // Process other standalone text/number inputs
+        inputs.forEach(input => {
+            if ((input.type === 'text' || input.type === 'number') && 
+                !input.classList.contains('has-text') &&
+                !input.parentElement.classList.contains('has-text') &&
+                input.id !== 'ln_meta' && input.id !== 'ln_total' &&
+                input.name !== 'organ-other' && input.name !== 'Histology_Other') {
+                
+                const label = input.getAttribute('data-label');
+                if (input.value && label) {
+                    data[label] = input.value;
                 }
+            }
+        });
+
+        // Construct the HTML Output
+        if (data['Specimen']) {
+            const items = data['Specimen'].map(i => i.toLowerCase());
+            let sentence = (items.length === 1) ? items[0] : 
+                           (items.length === 2) ? items.join(' and ') : 
+                           items.slice(0, -1).join(', ') + ', and ' + items.slice(-1);
+
+            sentence = sentence.charAt(0).toUpperCase() + sentence.slice(1);
+            const headerLi = document.createElement('li');
+            headerLi.className = 'synoptic-item';
+            headerLi.style.listStyleType = 'none';
+            headerLi.innerHTML = `${sentence}, resection:`;
+            reportList.appendChild(headerLi);
+            delete data['Specimen'];
+        }
+
+        if (Object.keys(data).length === 0 && reportList.childNodes.length === 0) {
+            reportList.innerHTML = '<li class="synoptic-item">No data selected.</li>';
+        } else {
+            for (const [key, value] of Object.entries(data)) {
+                const li = document.createElement('li');
+                li.className = 'synoptic-item';
+                let displayValue = Array.isArray(value) ? value.join(', ') : value;
+                li.innerHTML = `<strong>${key}:</strong> ${displayValue}`;
+                reportList.appendChild(li);
             }
         }
-                       
-                       
-                        
-            // Attach listeners
-            inputs.forEach(input => {
-                input.addEventListener('change', updateReport);
-                input.addEventListener('input', updateReport);
-            });
+    }
+
+    // --- 3. EVENT LISTENERS ---
+    inputs.forEach(input => {
+        input.addEventListener('change', updateReport);
+        input.addEventListener('input', () => {
+            // If the user changes lymph nodes or tumor deposits, recalculate pN
+            if (input.id === 'ln_meta' || input.name === 'TumorDepositsNum') {
+                calculatePN();
+            }
+            updateReport();
         });
+    });
+});
     </script>
 </body>
 </html>
