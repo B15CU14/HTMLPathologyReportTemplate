@@ -162,7 +162,7 @@ inflammation)</label>
             <label><input type="radio" name="TreatmentEffect" value="Score 3 (Poor/No Response)" data-label="Treatment Effect"> Score 3 (Poor/No Response)</label>
         </div>
 
-        <h2>Margin</h2>
+        <h2>Margins</h2>
 
         <div class="question-block">
             <label><input type="radio" name="MarginStatus" value="All margins negative" data-label="Margin Status" onclick="toggleSub('Negative_margin', true); resetOtherInputs(this)"> All margins negative for invasive carcinoma</label>
@@ -215,14 +215,14 @@ inflammation)</label>
         
         <h2>pTNM Classification (AJCC 8th Ed)</h2>
         <div class="question-block">
-            <span class="question-label">Prefix/Suffix</span>
+            <span class="question-label" id = "TModifier">Prefix/Suffix</span>
             <label><input type="checkbox" name="prefix" value="y" data-label="y_post treatment">y (post treatment)</label>
             <label><input type="checkbox" name="prefix" value="r" data-label="r_recurrent">r (recurrent)</label>
             <label><input type="checkbox" name="suffix" value="m" data-label="m_multiple">m (multiple primary)</label>
         </div>
         
         <div class="question-block">
-            <span class="question-label">pT Category</span>
+            <span class="question-label" id="TStage">pT Category</span>
             <label><input type="radio" name="pT" value="pT0: No evidence of primary tumor" data-label="pT Category"> pT0: No evidence of primary tumor</label>
             <label><input type="radio" name="pT" value="pTis: Carcinoma in situ" data-label="pT Category"> pTis: Carcinoma in situ</label>
             <label><input type="radio" name="pT" value="pT1: Invades submucosa" data-label="pT Category"> pT1: Invades submucosa</label>
@@ -230,25 +230,27 @@ inflammation)</label>
             <label><input type="radio" name="pT" value="pT3: Invades through muscularis propria" data-label="pT Category"> pT3: Invades through muscularis propria</label>
             <label><input type="radio" name="pT" value="pT4a: Invades visceral peritoneum" data-label="pT Category"> pT4a: Invades visceral peritoneum</label>
             <label><input type="radio" name="pT" value="pT4b: Directly invades adjacent organs" data-label="pT Category"> pT4b: Directly invades adjacent organs</label>
+            <label><input type="radio" name="pT" value="pTx: Not applicable / Cannot be determined" data-label="pT Category"> pTx: Not applicable / Cannot be determined</label>
         </div>
 
         <div class="question-block" id="pn-category-section">
-            <span class="question-label">pN Category</span>
-            <label><input type="radio" name="pN" id = "pN0" value="pN0: No regional LN metastasis" data-label="pN Category"> pN0: No regional LN metastasis</label>
-            <label><input type="radio" name="pN" id = "pN1a" value="pN1a: 1 positive node" data-label="pN Category"> pN1a: 1+ve node</label>
-            <label><input type="radio" name="pN" id = "pN1b" value="pN1b: 2-3 positive nodes" data-label="pN Category"> pN1b: 2-3+ve nodes</label>
-            <label><input type="radio" name="pN" id = "pN1c" value="pN1c: Tumor deposits only (no LN+)" data-label="pN Category"> pN1c: Tumor deposits only (no LN+)</label>
-            <label><input type="radio" name="pN" id = "pN2a" value="pN2a: 4-6 positive nodes" data-label="pN Category"> pN2a: 4-6 +ve nodes</label>
-            <label><input type="radio" name="pN" id = "pN2b" value="pN2b: 7 or more positive nodes" data-label="pN Category"> pN2b: >= 7 +ve nodes</label>
-            <label><input type="radio" name="pN" value="Not applicable / Cannot be determined" data-label="pN Category"> Not applicable / Cannot be determined</label>
+            <span class="question-label" id="NStage">pN Category</span>
+            <label><input type="radio" name="N" id = "N0" value="N0: No regional LN metastasis" data-label="N Category"> N0: No regional LN metastasis</label>
+            <label><input type="radio" name="N" id = "N1a" value="N1a: 1 positive node" data-label="N Category"> N1a: 1+ve node</label>
+            <label><input type="radio" name="N" id = "N1b" value="N1b: 2-3 positive nodes" data-label="N Category"> N1b: 2-3+ve nodes</label>
+            <label><input type="radio" name="N" id = "N1c" value="N1c: Tumor deposits only (no LN+)" data-label="N Category"> N1c: Tumor deposits only (no LN+)</label>
+            <label><input type="radio" name="N" id = "N2a" value="N2a: 4-6 positive nodes" data-label="N Category"> N2a: 4-6 +ve nodes</label>
+            <label><input type="radio" name="N" id = "N2b" value="N2b: 7 or more positive nodes" data-label="N Category"> N2b: >= 7 +ve nodes</label>
+            <label><input type="radio" name="N" value="Nx:Not applicable / Cannot be determined" data-label="N Category"> Nx: Not applicable / Cannot be determined</label>
         </div>
 
-        <div class="question-block">
+        <div class="question-block" id="MStage">
             <span class="question-label">pM Category</span>
-            <label><input type="radio" name="pM" value="Not applicable / Cannot be determined" data-label="pM Category"> Not applicable / Cannot be determined</label>
-            <label><input type="radio" name="pM" value="pM1a: Metastasis to one site" data-label="pM Category"> pM1a: Metastasis to one site</label>
-            <label><input type="radio" name="pM" value="pM1b: Metastasis to 2+ sites" data-label="pM Category"> pM1b: Metastasis to 2+ sites</label>
-            <label><input type="radio" name="pM" value="pM1c: Peritoneal metastasis" data-label="pM Category"> pM1c: Peritoneal metastasis</label>
+            <label><input type="radio" name="M" value="Not applicable / Cannot be determined" data-label="M Category"> Not applicable / Cannot be determined</label>
+            <label><input type="radio" name="M" value="M1a: Metastasis to one site" data-label="M Category"> pM1a: Metastasis to one site</label>
+            <label><input type="radio" name="M" value="M1b: Metastasis to 2+ sites" data-label="M Category"> pM1b: Metastasis to 2+ sites</label>
+            <label><input type="radio" name="M" value="M1c: Peritoneal metastasis" data-label="M Category"> pM1c: Peritoneal metastasis</label>
+            <label><input type="radio" name="M" value="Mx: Not applicable / Cannot be determined" data-label="M Category"> pMx: Not applicable / Cannot be determined</label>
         </div>
 
         
@@ -306,15 +308,15 @@ inflammation)</label>
 
                 let targetId = "";
                 if (positiveNodes === 0) {
-                    targetId = tumorDepositsNum === 0 ? "pN0" : "pN1c";
+                    targetId = tumorDepositsNum === 0 ? "N0" : "N1c";
                 } else if (positiveNodes === 1) {
-                    targetId = "pN1a";
+                    targetId = "N1a";
                 } else if (positiveNodes >= 2 && positiveNodes <= 3) {
-                    targetId = "pN1b";
+                    targetId = "N1b";
                 } else if (positiveNodes >= 4 && positiveNodes <= 6) {
-                    targetId = "pN2a";
+                    targetId = "N2a";
                 } else if (positiveNodes >= 7) {
-                    targetId = "pN2b";
+                    targetId = "N2b";
                 }
 
                 if (targetId) {
@@ -323,24 +325,37 @@ inflammation)</label>
                 }
             }
 
+
+
             function updateReport() {
                 reportList.innerHTML = '';
                 const data = {};
 
+                //catch TNM logic
+                const prefix = document.querySelector('input[name="prefix"]:checked')?.value || '';
+                const suffix = document.querySelector('input[name="suffix"]:checked')?.value || '';
+                const pT = document.querySelector('input[name="pT"]:checked')?.value.split(':')[0] || '';
+                const pN = document.querySelector('input[name="N"]:checked')?.value.split(':')[0] || '';
+                const pM = document.querySelector('input[name="M"]:checked')?.value.split(':')[0] || '';
+                // Construct and store the combined string
+                    if (pT || pN || pM) {
+                        data["TNM Classification"] = `${prefix}${pT}${suffix} ${pN} ${pM}`.trim();
+                    }
+
                 inputs.forEach(input => {
                     const label = input.getAttribute('data-label');
                     if (!label) return;
-                    // --- SKIP SUB-QUESTIONS TO PREVENT DUPLICATE BULLETS ---
-                    if (input.name === "ClosestMargin" || input.name === "MarginDistance" || input.name === "Positive margin") {
-                        return; 
-                    }
+
+                    // SKIP list: prevent these from creating their own separate bullets
+                    const skipLabels = ["pT Category", "N Category", "M Category", "y_post treatment", "r_recurrent", "m_multiple"];
+                    if (skipLabels.includes(label)) return;
 
                     if (input.type === 'radio' && input.checked) {
                         if (!data[label]) data[label] = [];
                         let val = input.value;
                         const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
                         
-                        //Special logic for margin status//
+                        //Margin status
                         if (val === "All margins negative") {
                             const subDiv = document.getElementById('Negative_margin');
                             if (subDiv) {
@@ -365,7 +380,7 @@ inflammation)</label>
                                 val = `${val}${marginText}${distanceText}`;
                             }
                         } 
-                        // --- EXISTING POSITIVE MARGIN LOGIC ---
+                        // positive margin
                         else if (hasText) {
                             const textInput = input.parentElement.querySelector('input[type="text"], input[type="number"]');
                             const textValue = textInput ? textInput.value.trim() : "";
@@ -423,6 +438,7 @@ inflammation)</label>
                     }
                 });
 
+                
                 // Construct output
                 if (data['Specimen']) {
                     const items = data['Specimen'].map(i => i.toLowerCase());
