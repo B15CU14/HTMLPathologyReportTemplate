@@ -209,7 +209,7 @@ inflammation)</label>
             <label><input type="checkbox" name="AddFindings" value="Ulcerative colitis" data-label="Additional Findings">Chronic colitis</label>
             <label><input type="checkbox" name="AddFindings" value="Crohn disease" data-label="Additional Findings">Ischemic colitis</label>
             <label><input type="checkbox" name="AddFindings" value="Diverticulosis" data-label="Additional Findings">Acute peritonitis</label>
-            <label><input type="checkbox" name="AddFindings" value="Other" data-label="Additional Findings" class="has-text"> Other <input type="text" name="Other"></label>
+            <label><input type="checkbox" name="AddFindings" value="Other" data-label="Additional Findings" class="has-text"><input type="text" name="Other"></label>
         </div>
 
         
@@ -362,18 +362,29 @@ inflammation)</label>
 
                         if (!data[label]) data[label] = [];
                         
-                        // Handle Margin and Text Logic
+                        // Handle text logic for both radio and checkbox with has-text class
                         const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                        if (hasText) {
+                            const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
+                            if (txt) {
+                                // If it's a margin, use the special formatting
+                                if (label === "Margin Status") {
+                                    val = `Positive ${txt} margin`;
+                                } else {
+                                    // Overwrite "val" with only the text, removing the word "Other"
+                                    val = txt; 
+                                }
+                            }
+                        }
+                        
+                        // Margin logic with sub-questions
                         if (input.type === 'radio') {
                             if (val === "All margins negative") {
                                 const subDiv = document.getElementById('Negative_margin');
                                 const margins = Array.from(subDiv.querySelectorAll('input[name="ClosestMargin"]:checked')).map(m => m.value);
                                 const distance = subDiv.querySelector('input[name="MarginDistance"]')?.value;
                                 val += margins.length > 0 ? ` (closest: ${margins.join(', ')}${distance ? `; distance: ${distance} cm` : ""})` : "";
-                            } else if (hasText) {
-                                const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
-                                if (txt) val = (label === "Margin Status") ? `Positive ${txt} margin` : `${val}: ${txt}`;
-                            }
+                            } 
                             data[label].push(val);
                         } else if (input.type === 'checkbox' && label !== "Specimen") {
                             data[label].push(val);
