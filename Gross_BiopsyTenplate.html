@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biopsy Gross Description Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .input-group {
+            transition: all 0.2s;
+        }
+        .input-group:focus-within {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Left Column: Controls -->
+        <div class="bg-white rounded-xl shadow-lg p-6 space-y-6" id="inputForm">
+            <h2 class="text-2xl font-bold text-gray-800 border-b pb-2 mb-4">
+                <i class="fas fa-microscope text-blue-600 mr-2"></i>Biopsy Input
+            </h2>
+
+            <!-- 1. Specimen Labeling -->
+            <div class="space-y-3">
+                <h3 class="font-semibold text-gray-700 text-sm uppercase tracking-wider">1. Labeling</h3>
+                <div class="flex flex-col space-y-2">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="labelType" value="unlabeled" class="form-radio text-blue-600 h-4 w-4" onchange="generateGross()">
+                        <span class="ml-2">Unlabeled organ and location</span>
+                    </label>
+                    <div class="flex items-center">
+                        <label class="inline-flex items-center cursor-pointer shrink-0">
+                            <input type="radio" name="labelType" value="labeled" class="form-radio text-blue-600 h-4 w-4" checked onchange="generateGross()">
+                            <span class="ml-2">Labeled:</span>
+                        </label>
+                        <input type="text" id="labelText" class="ml-3 flex-1 border border-gray-300 rounded px-3 py-1.5 focus:outline-none focus:border-blue-500 transition" placeholder='e.g., "Right breast mass"' oninput="generateGross()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Quantity & Type -->
+            <div class="space-y-3 bg-blue-50 p-4 rounded-lg">
+                <h3 class="font-semibold text-gray-700 text-sm uppercase tracking-wider">2. Specimen Details</h3>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Quantity (Piece)</label>
+                        <select id="quantity" class="w-full border border-gray-300 rounded px-3 py-2 bg-white" onchange="generateGross()">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="multiple">Multiple</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Appearance -->
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Consistency</label>
+                        <select id="consistency" class="w-full border border-gray-300 rounded px-3 py-2 bg-white" onchange="generateGross()">
+                            <option value="soft">Soft</option>
+                            <option value="rubbery">Rubbery</option>
+                            <option value="firm">Firm</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Color</label>
+                        <select id="color" class="w-full border border-gray-300 rounded px-3 py-2 bg-white" onchange="generateGross()">
+                            <option value="tan-brown">Tan brown</option>
+                            <option value="yellow">Light brown</option>
+                            <option value="white">Dark brown</option>
+                            <option value="hemorrhagic">Light to dark brown</option>
+                            <option value="tan-brown">Yellow</option>
+                            <option value="yellow">White</option>
+                            <option value="white">Yellow-white</option>
+                            <option value="hemorrhagic">Hemorrhagic</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Measurements -->
+            <div class="space-y-3">
+            <h3 class="font-semibold text-gray-700 text-sm uppercase tracking-wider">3. Dimensions (cm)</h3>
+            
+            <div class="flex items-center space-x-4 mb-2">
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="dimType" value="3d" checked onchange="toggleDimInputs(); generateGross()" class="text-blue-600">
+                    <span class="ml-2 text-sm">W x L x D</span>
+                </label>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="dimType" value="cylinder" onchange="toggleDimInputs(); generateGross()" class="text-blue-600">
+                    <span class="ml-2 text-sm">Diameter x Length</span>
+                </label>
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="radio" name="dimType" value="range" onchange="toggleDimInputs(); generateGross()" class="text-blue-600">
+                    <span class="ml-2 text-sm">Ranging</span>
+                </label>
+            </div>
+
+            <div id="dimContainer" class="space-y-2">
+                </div>
+
+            <div id="dimActionButtons" class="pt-2">
+                <button type="button" onclick="addDimensionRow()" class="text-blue-600 text-xs font-bold hover:underline">
+                    <i class="fas fa-plus-circle mr-1"></i>Add Dimension Set
+                </button>
+            </div>
+
+            <div id="dim-range" class="hidden flex-wrap items-center gap-2">
+                <div class="flex items-center space-x-1">
+                    <input type="text" id="r1_1" class="w-14 border border-gray-300 rounded px-1 py-1" oninput="generateGross()">
+                    <span>x</span>
+                    <input type="text" id="r1_2" class="w-14 border border-gray-300 rounded px-1 py-1" oninput="generateGross()">
+                    <span>x</span>
+                    <input type="text" id="r1_3" class="w-14 border border-gray-300 rounded px-1 py-1" oninput="generateGross()">
+                </div>
+                <span class="font-bold text-blue-600">to</span>
+                <div class="flex items-center space-x-1">
+                    <input type="text" id="r2_1" class="w-14 border border-gray-300 rounded px-1 py-1" oninput="generateGross()">
+                    <span>x</span>
+                    <input type="text" id="r2_2" class="w-14 border border-gray-300 rounded px-1 py-1" oninput="generateGross()">
+                    <span>x</span>
+                    <input type="text" id="r2_3" class="w-14 border border-gray-300 rounded px-1 py-1" oninput="generateGross()">
+                    <span class="ml-1">cm</span>
+                </div>
+            </div>
+            </div>
+            <!-- 4. Free text area-->
+             <div class="space-y-3 pt-4 border-t">
+                <h3 class="font-semibold text-gray-700 text-sm uppercase tracking-wider">4. Free text Area (Optional)</h3>
+                <textarea id="additionalFindings" 
+                    class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:border-blue-500 transition" 
+                    placeholder="e.g., No other lesions identified." 
+                    rows="2"
+                    oninput="generateGross()"></textarea>
+            </div>
+            <!-- 5. Submission & Cassettes -->
+            <div class="space-y-3 pt-4 border-t">
+                <h3 class="font-semibold text-gray-700 text-sm uppercase tracking-wider">5. Submission</h3>
+                
+                <div class="flex flex-col space-y-2 mb-4">
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="submitType" value="entirely" checked class="form-radio text-green-600 h-4 w-4" onchange="generateGross()">
+                        <span class="ml-2">Entirely submitted</span>
+                    </label>
+                    <label class="inline-flex items-center cursor-pointer">
+                        <input type="radio" name="submitType" value="representatively" class="form-radio text-green-600 h-4 w-4" onchange="generateGross()">
+                        <span class="ml-2">Representatively submitted</span>
+                    </label>
+                </div>
+
+                <div class="space-y-3">
+                    <div id="cassetteContainer" class="space-y-2"></div>
+                    
+                    <div class="flex gap-2">
+                        <button type="button" onclick="addCassetteInput()" class="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700 transition shadow-sm">
+                            <i class="fas fa-plus mr-1"></i> Add Cassette
+                        </button>
+                        <button type="button" onclick="resetCassettes()" class="bg-gray-200 text-gray-600 px-4 py-2 rounded text-sm font-bold hover:bg-gray-300 transition">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Right Column: Output -->
+        <div class="flex flex-col h-full">
+            <div class="bg-white rounded-xl shadow-lg flex flex-col h-full overflow-hidden border border-blue-100">
+                <div class="bg-blue-600 p-4 flex justify-between items-center text-white">
+                    <h2 class="font-bold text-lg"><i class="fas fa-file-medical-alt mr-2"></i>Generated Gross Description</h2>
+                    <button onclick="copyToClipboard()" class="bg-white text-blue-600 hover:bg-blue-50 px-3 py-1 rounded text-sm font-semibold transition shadow-sm">
+                        <i class="fas fa-copy mr-1"></i> Copy
+                    </button>
+                </div>
+                
+                <div class="flex-1 p-0 relative">
+                    <textarea id="grossOutput" 
+                        class="w-full h-full p-6 text-lg leading-relaxed text-gray-800 resize-none focus:outline-none font-serif"
+                        spellcheck="false"></textarea>
+                </div>
+                
+                <div class="bg-gray-50 px-6 py-3 border-t text-xs text-gray-500 flex justify-between">
+                    <span>Template: Biopsy.pptx</span>
+                    <span id="statusMsg">Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            generateGross();
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+        addDimensionRow(); 
+        generateGross();
+        });
+
+        let cassetteCount = 0;
+
+            function addCassetteInput() {
+               const container = document.getElementById('cassetteContainer');
+    
+                const row = document.createElement('div');
+                row.className = "flex items-center space-x-2 cassette-row group";
+                
+                row.innerHTML = `
+                    <span class="font-bold text-blue-700 w-8 label-index"></span>
+                    <input type="text" 
+                        class="cassette-input flex-1 border border-gray-300 rounded px-3 py-1.5 text-sm focus:border-blue-500 outline-none" 
+                        placeholder="Description..." 
+                        oninput="generateGross()">
+                    <button type="button" onclick="removeRow(this)" class="text-gray-400 hover:text-red-500 transition px-2">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                
+                container.appendChild(row);
+                updateLabels(); // Assign A1, A2, etc.
+                generateGross();
+            }
+
+            function removeRow(btn) {
+                btn.parentElement.remove();
+                updateLabels(); // Re-index remaining rows
+                generateGross();
+            }
+
+            function updateLabels() {
+                const labels = document.querySelectorAll('.label-index');
+                labels.forEach((label, index) => {
+                    label.innerText = `A${index + 1}:`;
+                });
+            }
+
+            function resetCassettes() {
+                document.getElementById('cassetteContainer').innerHTML = "";
+                generateGross();
+            }
+
+            function addDimensionRow() {
+            const container = document.getElementById('dimContainer');
+            const dimType = document.querySelector('input[name="dimType"]:checked').value;
+            if (dimType === 'range') return;
+
+            const row = document.createElement('div');
+            row.className = "flex items-center space-x-2 dim-row group";
+            
+            if (dimType === '3d') {
+                row.innerHTML = `
+                    <input type="text" class="d-val-1 w-16 border border-gray-300 rounded px-2 py-1" placeholder="0.5" oninput="generateGross()">
+                    <span>x</span>
+                    <input type="text" class="d-val-2 w-16 border border-gray-300 rounded px-2 py-1" placeholder="0.5" oninput="generateGross()">
+                    <span>x</span>
+                    <input type="text" class="d-val-3 w-16 border border-gray-300 rounded px-2 py-1" placeholder="0.3" oninput="generateGross()">
+                    <span class="text-gray-400">cm</span>
+                    <button type="button" onclick="this.parentElement.remove(); generateGross();" class="text-gray-300 hover:text-red-500 px-2">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+            } else {
+                row.innerHTML = `
+                    <input type="text" class="d-val-1 w-16 border border-gray-300 rounded px-2 py-1" placeholder="Dia" oninput="generateGross()">
+                    <span class="text-xs text-gray-500">dia x</span>
+                    <input type="text" class="d-val-2 w-16 border border-gray-300 rounded px-2 py-1" placeholder="Len" oninput="generateGross()">
+                    <span class="text-xs text-gray-500">len (cm)</span>
+                    <button type="button" onclick="this.parentElement.remove(); generateGross();" class="text-gray-300 hover:text-red-500 px-2">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+            }
+            container.appendChild(row);
+            generateGross();
+        }
+            
+            function generateGross() {
+                // 1. Initial Header
+                let text = "The specimen is received in formalin, ";
+
+                // 2. Labeling
+                const labelType = document.querySelector('input[name="labelType"]:checked').value;
+                const labelText = document.getElementById('labelText').value.trim();
+                text += labelType === 'unlabeled' ? "unlabeled. " : `labeled as "${labelText ? labelText : '...' }". `;
+
+                // 3. Description
+                const quantity = document.getElementById('quantity').value;
+                const consistency = document.getElementById('consistency').value;
+                const color = document.getElementById('color').value;
+                const isMultiple = (quantity === "multiple");
+                const isPleural = isMultiple || (parseInt(quantity) > 1)
+                const pieceStr = isPleural? "pieces" : "piece";
+
+                text += `It consists of ${quantity} ${pieceStr} of ${consistency}, ${color} tissue, `;
+
+                // 4. Dimensions
+                const dimType = document.querySelector('input[name="dimType"]:checked').value;
+                let dimStrings = [];
+
+                if (dimType === 'range') {
+                    const r1 = [document.getElementById('r1_1').value, document.getElementById('r1_2').value, document.getElementById('r1_3').value];
+                    const r2 = [document.getElementById('r2_1').value, document.getElementById('r2_2').value, document.getElementById('r2_3').value];
+                    const set1 = r1.every(v => v) ? r1.join(' x ') : " ___ x ___ x ___ cm";
+                    const set2 = r2.every(v => v) ? r2.join(' x ') : " ___ x ___ x ___ cm";
+                    text += `ranging from ${set1} cm to ${set2} cm. `;
+                } else {
+                    const rows = document.querySelectorAll('.dim-row');
+                    rows.forEach(row => {
+                        const v1 = row.querySelector('.d-val-1').value || "___";
+                        const v2 = row.querySelector('.d-val-2').value || "___";
+                        if (dimType === '3d') {
+                            const v3 = row.querySelector('.d-val-3').value || "___";
+                            dimStrings.push(`${v1} x ${v2} x ${v3} cm`);
+                        } else {
+                            dimStrings.push(`${v1} cm in diameter, ${v2} cm in length`);
+                        }
+                    });
+
+                    // Add measuring in front, Join dimensions with commas and "and"
+                    let dimText = "measuring ";
+                    if (dimStrings.length === 1) {
+                        dimText += dimStrings[0];
+                    } else {
+                        const last = dimStrings.pop();
+                        dimText += dimStrings.join(', ') + " and " + last;
+                    }
+                    text += dimText + (isMultiple ? " in aggregate. " : ". ");
+                }
+                // 4. Free text area
+                const additionalText = document.getElementById('additionalFindings').value.trim();
+                if (additionalText) {
+                    text += additionalText + (additionalText.endsWith('.') ? " " : ". ");
+                }
+
+                // 5. Submission Logic
+                const submitType = document.querySelector('input[name="submitType"]:checked').value;
+                text += `The specimen is ${submitType} submitted as:`;
+
+                // 6. Collect Dynamic Cassette Inputs
+                const rows = document.querySelectorAll('.cassette-input');
+                
+                // Logic change: If only 1 cassette exists, omit the "A1" label
+                if (rows.length === 1) {
+                    const val = rows[0].value.trim();
+                    text += `\nA : ${val ? val : "______"}`;
+                } else if (rows.length > 1) {
+                    rows.forEach((input, index) => {
+                        const val = input.value.trim();
+                        text += `\nA${index + 1} : ${val ? val : "______"}`;
+                    });
+                } else {
+                    // Default when no extra rows are added
+                    text += "\nA : ______";
+                }
+
+                document.getElementById('grossOutput').value = text;
+            }
+
+            
+            function toggleDimInputs() {
+            const selected = document.querySelector('input[name="dimType"]:checked').value;
+            const container = document.getElementById('dimContainer');
+            const dRange = document.getElementById('dim-range');
+            const dBtn = document.getElementById('dimActionButtons');
+
+            container.innerHTML = ""; // Clear current rows
+            
+            if (selected === 'range') {
+                dRange.classList.remove('hidden');
+                dBtn.classList.add('hidden');
+            } else {
+                dRange.classList.add('hidden');
+                dBtn.classList.remove('hidden');
+                addDimensionRow(); // Add one initial row for the new mode
+            }
+            generateGross();
+            }
+
+            function copyToClipboard() {
+                const copyText = document.getElementById("grossOutput");
+                copyText.select();
+                document.execCommand("copy");
+                const msg = document.getElementById('statusMsg');
+                msg.innerText = "Copied!";
+                setTimeout(() => msg.innerText = "Ready", 2000);
+            }
+
+            document.addEventListener('DOMContentLoaded', generateGross);
+    </script>
+</body>
+</html>
