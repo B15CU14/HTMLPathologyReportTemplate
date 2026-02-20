@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comprehensive Colon Pathology Tool</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; margin: 30px; color: #333; background-color: #f4f7f6; }
+        header { border-bottom: 3px solid #2c3e50; margin-bottom: 20px; }
+        fieldset { border: 1px solid #cbd5e0; border-radius: 8px; margin-bottom: 25px; padding: 20px; background-color: #fff; }
+        legend { font-weight: bold; padding: 0 15px; color: #2c3e50; text-transform: uppercase; }
+        .row { margin-bottom: 15px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+        .output-area { background: #2c3e50; color: #ecf0f1; padding: 20px; border-radius: 8px; white-space: pre-wrap; font-family: monospace; border: 1px solid #1a252f; }
+        .btn-primary { background: #27ae60; color: white; padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .cassette-row { display: grid; grid-template-columns: 80px 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+        .sub-list {margin-left: 30px; padding: 10px;border-left: 2px solid #ccc;background-color: #f9f9f9;margin-top: 5px;}
+        input[type="text"] {padding: 5px;border: 1px solid #cbd5e0;border-radius: 4px}
+    </style>
+</head>
+<body>
+
+<header><h1>Colon Pathology Grossing Tool</h1></header>
+
+<form id="pathologyForm">
+    <fieldset>
+        <legend>Specimen header</legend>
+        <div class="row">
+            <label><input type="radio" name="labeling" value="Labeled" checked> Labeled as:</label><input type="text" id="label_text">
+            <label><input type="radio" name="labeling" value="unlabled organ and location"> Unlabled</label></div>
+            <hr>
+            <label><input type="radio" name="opening" value="previously opened"> Previously opened</label>
+            <label><input type="radio" name="opening" value="unopened" checked> Unopened</label>
+            <hr>
+            <label>How many piece received</label>
+            <input type="number" id="num_pieces" min="1" value="1" style="width:30px;">
+        </div>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Submitted organs</legend>
+    <div class="section">
+        <input type="checkbox" id="ileum">
+        <label for="ileum">Terminal Ileum<label> [<input type="text" placeholder="length" style="width:40px;">cm,<input type="text" placeholder="diameter" style="width:60px;">cm]
+    </div>
+    <div class="section">
+        <input type="checkbox" id="appendix">
+        <label for="appendix">Appendix</label> [<input type="text" placeholder="length" style="width:40px;">cm,<input type="text" placeholder="diameter" style="width:60px;">cm]
+    </div>
+    <div class="section">
+        <input type="checkbox" id="colon_group"><label for="colon_group"> Colon</label> [<input type="text" placeholder="length" style="width:40px;">cm,<input type="text" placeholder="diameter" style="width:60px;">cm]
+            <div id="colon_sublist" class="sub-list" style="display: true;">
+            <input type="checkbox" id="cecum"> <label for="cecum">Cecum</label>
+            <input type="checkbox" id="asc_colon"> <label for="asc_colon">Ascending colon</label>
+            <input type="checkbox" id="trans_colon"> <label for="trans_colon">Transverse colon</label>
+            <input type="checkbox" id="desc_colon"> <label for="desc_colon">Descending colon</label>
+            <input type="checkbox" id="sigmoid"> <label for="sigmoid">Sigmoid colon</label>
+            <input type="checkbox" id="rectosigmoid"> <label for="rectosigmoid">Rectosigmoid</label>
+            <input type="checkbox" id="rectum" onclick="togglesub('rectum', 'mesorectum')"> <label for="rectum">Rectum</label>
+            <input type="checkbox" id="u_rectum" onclick="togglesub('u_rectum', 'mesorectum')"> <label for="u_rectum">Upper rectum</label>
+            <input type="checkbox" id="m_rectum" onclick="togglesub('m_rectum', 'mesorectum')"> <label for="m_rectum">Middle rectum</label>
+            <input type="checkbox" id="l_rectum" onclick="togglesub('l_rectum', 'mesorectum')"> <label for="l_rectum">Lower rectum</label>
+            <input type="checkbox" id="anus"> <label for="anus">Anus</label>
+            </div>
+    <div class="section">
+        <input type="checkbox" id="omentum">
+        <label for="omentum">Omentum</label><input type="text" placeholder="W" style="width: 40px;"> x <input type="text" placeholder="L" style="width: 40px;"> x <input type="text" placeholder="H" style="width: 40px;"> cm
+    </div>
+    <div class="section">
+        <input type="checkbox" id="adj_organ"><label for="adj_organ"> Adjacent organ (</label><input type="text" placeholder="specify" style="width:100px;">) 
+        <input type="text" placeholder="W" style="width: 40px;"> x <input type="text" placeholder="L" style="width: 40px;"> x <input type="text" placeholder="H" style="width: 40px;"> cm
+    </div>
+</div>
+        </div>
+    </fieldset>
+    
+    <fieldset>
+        <legend>Overall Description</legend>
+        <strong>Serosa:</strong>
+        <div class="row">
+            <label><input type="radio" name="serosa" value="smooth" checked> Smooth</label>
+            <label><input type="radio" name="serosa" value="retracted"> Retracted</label>
+            <label><input type="radio" name="serosa" value="partially covered with exudate"> Covered with exudate</label>
+        </div>
+        
+        <div id="mesorectum" style="display: none;">
+            <strong>Mesorectum</strong>
+            <div class="row">
+            <label><input type="radio" name="meso" value="Complete"> Complete</label>
+            <label><input type="radio" name="meso" value="Nearly complete"> Nearly complete</label>
+            <label><input type="radio" name="meso" value="Incomplete"> Incomplete</label>
+            </div>
+    </fieldset>
+
+
+
+    <fieldset>
+        <legend>Lesion description</legend>
+        <input type = radio name="mass" id="mass_true" onclick="togglesub('mass_true', 'mass_description')"> <label for="mass_true"><strong>Mass</strong></label>
+        <input type = radio name="mass" id="mass_false"> <label for="mass_false"><strong>Lesion</strong></label>
+        <div class="row">
+            <strong>Location:</strong> <input type="text" id="l_loc" placeholder="e.g. Sigmoid">
+            <strong>Size:</strong> <input type="text" id="l_size" placeholder="LxWxD"> cm
+        </div>
+        <div class="row">
+            <strong>Gross Perforation</strong>
+            <label><input type="radio" name="perf" value="not present" checked> Not present</label>
+            <label><input type="radio" name="perf" value="present"> Present</label>
+            (Size: <input type="text" id="perf_size" placeholder="LxW" size="5"> cm)
+        </div>
+        <div class="row">
+            <strong>Appearance:</strong>
+            <select id="l_appearance">
+                <option value="ulcerated">Ulcerated</option>
+                <option value="exophytic">Exophytic</option>
+                <option value="infiltrative">Infiltrative</option>
+                <option value="polypoid">Polypoid</option>
+            </select>
+        </div>
+        <hr>
+        <div id='mass_description' style="display:none;">
+            <div class="row">
+            <strong>Consistency:</strong>
+            <select id="l_consistency">
+                <option value="firm">Firm</option>
+                <option value="soft">Soft</option>
+                <option value="friable">Friable</option>
+                <option value="necrotic">Necrotic</option>
+            </select>
+            </div>
+            <div class="row">
+            <strong>Cut surface:</strong>
+            <select id="l_cut_surface">
+                <option value="homogeneous">Homogeneous</option>
+                <option value="heterogeneous">Heterogeneous</option>
+                <option value="hemorrhagic">Hemorrhagic</option>
+                <option value="necrotic">Necrotic</option>
+            </select>
+            </div>
+            <div class="row">
+            <strong>Invasion of adjacent structures</strong>
+            <select id="l_adj_invasion">
+                <option value="none">None</option>
+                <option value="invades pericolonic fat">Invades pericolonic fat</option>
+                <option value="invades adjacent organ(s)">Invades adjacent organ(s)</option>
+            </select>
+            </div>
+        </div>    
+        <hr>
+        <div class="row">
+            <strong>Relationship to margins:</strong>
+            <select id="l_margin_relation">
+                <option value="not close to any margin">Not close to any margin</option>
+                <option value="close to proximal margin">Close to proximal margin</option>
+                <option value="close to distal margin">Close to distal margin</option>
+                <option value="close to radial margin">Close to radial margin</option>
+            </select>
+        </div>
+        
+    </fieldset>
+
+    <fieldset>
+        <legend>Other Findings</legend>
+        <div class="row">
+            <strong>Remaining Colon:</strong>
+            <select id="rem_col">
+                <option value="unremarkable">Unremarkable</option>
+                <option value="shows ulceration">Ulceration</option>
+                <option value="shows necrotic area(s)">Necrotic area(s)</option>
+                <option value="shows focal hemorrhage">Focal hemorrhage</option>
+            </select>
+        </div>
+        <div class="row">
+            <input type="checkbox" id="has_app"> <strong>Appendix:</strong>
+            <select id="app_status">
+                <option value="unremarkable">Unremarkable</option>
+                <option value="inflamed">Inflamed</option>
+            </select>
+            Lumen: <input type="text" id="app_lumen" placeholder="e.g. fecal material">
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Cassette Summary</legend>
+        <div id="cassette-container">
+            <div class="cassette-row">
+                <input type="text" class="c-id" value="A1">
+                <input type="text" class="c-desc" value="Proximal margin">
+                <select class="c-type"><option>en face</option><option>perpendicular</option></select>
+            </div>
+        </div>
+        <button type="button" onclick="addBlock()" style="margin-top:10px;">+ Add Block</button>
+    </fieldset>
+
+    <form id="pathologyForm">
+    </form>
+
+<div id="reportOutput" class="output-area">Waiting for input...</div>
+
+<script>
+
+function togglesub(checkboxId, sectionId) {
+  // 1. Get the checkbox and the section elements
+  const checkbox = document.getElementById(checkboxId);
+  const section = document.getElementById(sectionId);
+
+  // 2. Check if the checkbox is currently ticked
+  if (checkbox.checked) {
+    section.style.display = "block"; // Show it (or "flex")
+  } else {
+    section.style.display = "none";  // Hide it
+  }
+}
+
+// 1. Setup listeners as soon as the window loads
+window.onload = function() {
+    const form = document.getElementById('pathologyForm');
+    
+    // Listen for any typing (input) or clicking (change)
+    form.addEventListener('input', generateReport);
+    form.addEventListener('change', generateReport);
+    
+    // Run once on load to clear the "Waiting" text
+    generateReport();
+};
+
+function addBlock() {
+    const div = document.createElement('div');
+    div.className = 'cassette-row'; // [cite: 10, 37]
+    div.innerHTML = `
+        <input type="text" class="c-id" placeholder="ID" oninput="generateReport()">
+        <input type="text" class="c-desc" placeholder="Desc" oninput="generateReport()">
+        <select class="c-type" onchange="generateReport()">
+            <option>representative</option>
+            <option>totally submitted</option>
+        </select>`;
+    document.getElementById('cassette-container').appendChild(div);
+    generateReport(); // Update report when a new block is added 
+}
+
+function generateReport() {
+    let r = "GROSS DESCRIPTION:\n";
+    
+    // Specimen Integrity [cite: 11, 38]
+    const labeling = document.querySelector('input[name="labeling"]:checked').value;
+    const labelTxt = document.getElementById('label_text').value || "[Label]";
+    const opening = document.querySelector('input[name="opening"]:checked').value;
+    
+    r += `Specimen is received ${labeling} "${labelTxt}", `;
+    r += `consisting of an ${opening} segment of colon. [cite: 38, 39]\n`;
+
+    // Serosa & Mesorectum [cite: 28, 29, 40]
+    const serosa = document.querySelector('input[name="serosa"]:checked').value;
+    r += `The serosal surface is ${serosa}. [cite: 40] `;
+    
+    const meso = document.querySelector('input[name="meso"]:checked');
+    if(meso) r += `The mesorectum is ${meso.value}. [cite: 41] `;
+
+    // Lesion [cite: 30, 42]
+    const lLoc = document.getElementById('l_loc').value || "[Location]";
+    const lSize = document.getElementById('l_size').value || "[Size]";
+    r += `\n\nA lesion is identified at the ${lLoc}, measuring ${lSize} cm. [cite: 42] `;
+
+    // Perforation [cite: 31, 44]
+    const perf = document.querySelector('input[name="perf"]:checked').value;
+    r += `Gross tumor perforation is ${perf}${perf === 'present' ? 
+        ' (' + document.getElementById('perf_size').value + ' cm)' : ''}. [cite: 43, 44] `;
+
+    // Remaining Colon & Appendix [cite: 32, 33, 45]
+    r += `\n\nThe remaining colon ${document.getElementById('rem_col').value}. [cite: 45] `;
+    
+    if(document.getElementById('has_app').checked) {
+        const appStatus = document.getElementById('app_status').value;
+        const appLumen = document.getElementById('app_lumen').value || "no significant findings";
+        r += `The appendix is ${appStatus} and the lumen contains ${appLumen}. [cite: 46, 47] `;
+    }
+
+    // Cassette Summary [cite: 35, 48]
+    r += "\n\nCASSETTE SUMMARY:\n";
+    const ids = document.querySelectorAll('.c-id');
+    const descs = document.querySelectorAll('.c-desc');
+    const types = document.querySelectorAll('.c-type');
+    
+    ids.forEach((id, i) => { 
+        if(id.value || descs[i].value) {
+            r += `${id.value}: ${descs[i].value} (${types[i].value})\n`; // [cite: 49]
+        }
+    });
+
+    // Final Output update
+    document.getElementById('reportOutput').innerText = r;
+}
+</script>
+</body>
+</html>

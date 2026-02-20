@@ -1,0 +1,115 @@
+{
+  "label": [
+    null,
+    "labeled"
+  ],
+  "opened": [
+    true,
+    false
+  ],
+  "continuity": [
+    true,
+    false
+  ],
+  "organ_set": [
+    {
+      "small_bowel": [
+        "duodenum",
+        "jejunum",
+        "ileum"
+      ]
+    },
+    {
+      "colon": [
+        "cecum",
+        "ascending_colon",
+        "splenic_flexure",
+        "descending_colon",
+        "hepatic_flexure",
+        "transverse_colon",
+        "sigmoid_colon",
+        "rectosigmoid_colon",
+        {
+          "rectum": [
+            "upper",
+            "middle",
+            "lower"
+          ]
+        },
+        "anus"
+      ]
+    },
+    "esophagus",
+    "stomach",
+    {
+      "hepatobiliary_pancreas": [
+        "liver",
+        "gallbladder",
+        "cystic duct",
+        "common bile duct",
+        "common hepatic duct",
+        "ampulla of vater",
+        "pancreas",
+        "pancreatic duct"
+      ]
+    },
+    {
+      "Gyne": [
+        "uterus",
+        {
+          "right adnexa": [
+            "tube",
+            "ovary"
+          ],
+          "left adnexa": [
+            "tube",
+            "ovary"
+          ]
+        }
+      ]
+    }
+  ],
+  "serosa": [
+    "smooth",
+    "retracted",
+    "exudate/perforated"
+  ],
+  "tumor_site": {},
+  "tumor_invade": {},
+  "tumor_size": {},
+  "tumor_attribute": {
+    "color": [
+      {
+        "homogeneity": [
+          true,
+          false
+        ]
+      },
+      [
+        "",
+        "gray",
+        "tan",
+        "pink",
+        "brown",
+        "red"
+      ]
+    ],
+    "consistency": [
+      "soft",
+      "rubbery",
+      "hard"
+    ],
+    "appearance": [
+      "ulcerated",
+      "polypoid",
+      "necrosis",
+      "hemorrhage",
+      "mucinous"
+    ]
+  },
+  "remaining": {},
+  "lymph_node": [
+    "number of node found",
+    "largest dimension"
+  ]
+}
