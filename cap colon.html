@@ -162,20 +162,20 @@ inflammation)</label>
             <label><input type="radio" name="TreatmentEffect" value="Score 3 (Poor/No Response)" data-label="Treatment Effect"> Score 3 (Poor/No Response)</label>
         </div>
 
-        <h2>Margins</h2>
+        <h2>Margin</h2>
 
         <div class="question-block">
             <label><input type="radio" name="MarginStatus" value="All margins negative" data-label="Margin Status" onclick="toggleSub('Negative_margin', true); resetOtherInputs(this)"> All margins negative for invasive carcinoma</label>
                 <div id="Negative_margin" class="sub-question" style ="display: none;">
                     <span class="question-label">Closest Margin(s) to Invasive Carcinoma</span>
-                        <label><input type="checkbox" name="ClosestMargin" value="Proximal" data-label="Closest Margin"> Proximal</label>
-                        <label><input type="checkbox" name="ClosestMargin" value="Distal" data-label="Closest Margin"> Distal</label>
-                        <label><input type="checkbox" name="ClosestMargin" value="Radial" data-label="Closest Margin"> Radial</label>
-                        <label><input type="checkbox" name="ClosestMargin" value="Mesenteric" data-label="Closest Margin"> Mesenteric</label>
-                        <label><input type="checkbox" name="ClosestMargin" value="Other" data-label="Closest Margin" class="has-text"> Other <input type="text" name="Closest Margin"></label>
+                        <label><input type="checkbox" name="ClosestMargin" value="proximal" > Proximal</label>
+                        <label><input type="checkbox" name="ClosestMargin" value="distal" > Distal</label>
+                        <label><input type="checkbox" name="ClosestMargin" value="radial" > Radial</label>
+                        <label><input type="checkbox" name="ClosestMargin" value="mesenteric" > Mesenteric</label>
+                        <label><input type="checkbox" name="ClosestMargin" value="Other" class="has-text"><input type="text" placeholder="Specify other margin"></label>
                     
                     <span class="question-label">Distance to Closest Margin</span>
-                        <label>cm: <input type="text" name="MarginDistance" data-label="Distance to Closest Margin"></label>
+                        <label>cm: <input type="text" name="MarginDistance"></label>
                 </div>
             <label class="has-text"><input type="radio" name="MarginStatus" value="Invasive carcinoma present at margin" data-label="Margin Status" class="has-text" onclick="toggleSub('Negative_margin', false)"> Invasive carcinoma present at<input type="text" name="Positive margin"> margin</label>
         </div>
@@ -330,16 +330,47 @@ inflammation)</label>
                 inputs.forEach(input => {
                     const label = input.getAttribute('data-label');
                     if (!label) return;
+                    // --- SKIP SUB-QUESTIONS TO PREVENT DUPLICATE BULLETS ---
+                    if (input.name === "ClosestMargin" || input.name === "MarginDistance" || input.name === "Positive margin") {
+                        return; 
+                    }
 
                     if (input.type === 'radio' && input.checked) {
                         if (!data[label]) data[label] = [];
                         let val = input.value;
                         const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
-                        if (hasText) {
+                        
+                        //Special logic for margin status//
+                        if (val === "All margins negative") {
+                            const subDiv = document.getElementById('Negative_margin');
+                            if (subDiv) {
+                                // 1. Get checked margins (Proximal, Distal, etc.)
+                                const margins = Array.from(subDiv.querySelectorAll('input[name="ClosestMargin"]:checked'))
+                                    .map(m => {
+                                        // Handle "Other" textbox inside the checkbox
+                                        if (m.value === "Other") {
+                                            const otherTxt = m.parentElement.querySelector('input[type="text"]')?.value;
+                                            return otherTxt || "Other";
+                                        }
+                                        return m.value;
+                                    });
+
+                                // 2. Get Distance
+                                const distance = subDiv.querySelector('input[name="MarginDistance"]')?.value;
+
+                                // 3. Construct the f-string
+                                let marginText = margins.length > 0 ? ` (closest: ${margins.join(', ')}` : "";
+                                let distanceText = distance ? `; distance: ${distance} cm)` : "";
+                                
+                                val = `${val}${marginText}${distanceText}`;
+                            }
+                        } 
+                        // --- EXISTING POSITIVE MARGIN LOGIC ---
+                        else if (hasText) {
                             const textInput = input.parentElement.querySelector('input[type="text"], input[type="number"]');
                             const textValue = textInput ? textInput.value.trim() : "";
                             if (label === "Margin Status" && val === "Invasive carcinoma present at margin") {
-                                val = textValue ? `Present of tumor at ${textValue} margin` : val;
+                                val = textValue ? `Positive ${textValue} margin` : val;
                             } else if (textValue) {
                                 val = (val.toLowerCase() === 'other') ? textValue : `${val}: ${textValue}`;
                             }
@@ -366,9 +397,15 @@ inflammation)</label>
                 const totalInput = document.getElementById('ln_total');
                 const ratioRadio = document.getElementById('ln_ratio_radio');
                 if (ratioRadio && ratioRadio.checked) {
-                    const pos = metaInput ? (metaInput.value || "0") : "0";
-                    const tot = totalInput ? (totalInput.value || "0") : "0";
-                    data["Lymph node metastasis"] = `${pos}/${tot}`;
+                    // Convert values to numbers for comparison; default to 0 if empty or invalid
+                    const posVal = parseFloat(metaInput?.value) || 0;
+                    const totVal = totalInput?.value || "0";
+                    
+                    // Determine status string based on your conditions
+                    const status = posVal > 0 ? "Present" : "Not identified";
+                    
+                    // Combine the status and the ratio into the final string
+                    data["Lymph node metastasis"] = `${status} (${posVal}/${totVal})`;
                 }
 
                 // Other standalone text/number inputs
