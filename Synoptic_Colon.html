@@ -337,10 +337,7 @@ inflammation)</label>
                 const pT = document.querySelector('input[name="pT"]:checked')?.value.split(':')[0] || '';
                 const pN = document.querySelector('input[name="N"]:checked')?.value.split(':')[0] || '';
                 const pM = document.querySelector('input[name="M"]:checked')?.value.split(':')[0] || '';
-                // Construct and store the combined string
-                    if (pT || pN || pM) {
-                        data["TNM Classification"] = `${prefix}${pT}${suffix} ${pN} ${pM}`.trim();
-                    }
+
 
                 inputs.forEach(input => {
                     const label = input.getAttribute('data-label');
@@ -438,8 +435,12 @@ inflammation)</label>
                     }
                 });
 
+                // Construct TNM string
+                    if (pT || pN || pM) {
+                        data["TNM Classification"] = `${prefix}${pT}${suffix} ${pN} ${pM}`.trim();
+                    }
                 
-                // Construct output
+                    // Construct output
                 if (data['Specimen']) {
                     const items = data['Specimen'].map(i => i.toLowerCase());
                     let sentence = (items.length === 1) ? items[0] :
