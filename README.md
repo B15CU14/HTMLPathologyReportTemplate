@@ -1,8 +1,6 @@
-Goal 
-Webbased application for generating CAP cancer synoptic report
-
-Aim
-Standardize pathology report and mapped with SNOMED code
+Goal:
+- Create webbased application for generating CAP cancer synoptic report
+- To help standardize pathology report and mapped with SNOMED codes
 
 How to use
 - Load the file and place it somewhere on your computer that can easily access (eg, desktop). The file will be a .HTML file.
