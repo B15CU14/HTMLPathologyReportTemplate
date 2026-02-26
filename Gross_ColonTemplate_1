@@ -94,10 +94,12 @@
 
     <fieldset>
         <legend>Lesion description</legend>
-        <input type = radio name="mass" id="mass_true" onclick="togglesub('mass_true', 'mass_description')"> <label for="mass_true"><strong>Mass</strong></label>
-        <input type = radio name="mass" id="mass_false"> <label for="mass_false"><strong>Lesion</strong></label>
+        <input type = radio name="mass" id="mass_true" onclick="togglesub(true, 'mass_description')"><label for="mass_true"><strong>Mass</strong></label>
+        <input type = radio name="mass" id="mass_false" onclick="togglesub(false, 'mass_description')"><label for="mass_false"><strong>Lesion</strong></label>
         <div class="row">
             <strong>Location:</strong> <input type="text" id="l_loc" placeholder="e.g. Sigmoid">
+        </div>    
+        <div class="row">
             <strong>Size:</strong> <input type="text" id="l_size" placeholder="LxWxD"> cm
         </div>
         <div class="row">
@@ -140,19 +142,25 @@
             <select id="l_adj_invasion">
                 <option value="none">None</option>
                 <option value="invades pericolonic fat">Invades pericolonic fat</option>
+                <option value="invades serosa">Invades serosa</option>
                 <option value="invades adjacent organ(s)">Invades adjacent organ(s)</option>
             </select>
             </div>
         </div>    
         <hr>
-        <div class="row">
+        <div>
             <strong>Relationship to margins:</strong>
-            <select id="l_margin_relation">
-                <option value="not close to any margin">Not close to any margin</option>
-                <option value="close to proximal margin">Close to proximal margin</option>
-                <option value="close to distal margin">Close to distal margin</option>
-                <option value="close to radial margin">Close to radial margin</option>
-            </select>
+        </div>
+        <div class="row">
+            <label><input type="checkbox" name="margin" value="proximal" data-label="Proximal" class="has-text">Proximal<input type="text" name="dis_proximal" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="distal" data-label="Distal" class="has-text">Distal<input type="text" name="dis_distal" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="radial" data-label="Radial" class="has-text">Radial<input type="text" name="dis_radial" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="anterior" data-label="Anterior" class="has-text">Anterior<input type="text" name="dis_anterior" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="posterior" data-label="Posterior" class="has-text">Posterior<input type="text" name="dis_posterior" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="l_lateral" data-label="L_lateral" class="has-text">Left lateral<input type="text" name="dis_L_lateral" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="r_lateral" data-label="R_lateral" class="has-text">Right lateral<input type="text" name="dis_R_lateral" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="mesenteric" data-label="Mesenteric" class="has-text">Mesenteric<input type="text" name="dis_mesenteric" style="width: 40px;"> cm</label>
+            <label><input type="checkbox" name="margin" value="other" data-label="Other" class="has-text"><input type="text" name="dis_other" placeholder="Specify margin"><input type="text" name="dis_other" style="width: 40px;">cm</label>
         </div>
         
     </fieldset>
@@ -197,18 +205,16 @@
 
 <script>
 
-function togglesub(checkboxId, sectionId) {
-  // 1. Get the checkbox and the section elements
-  const checkbox = document.getElementById(checkboxId);
+function togglesub(isShown, sectionId) {
   const section = document.getElementById(sectionId);
-
-  // 2. Check if the checkbox is currently ticked
-  if (checkbox.checked) {
-    section.style.display = "block"; // Show it (or "flex")
+  
+  if (isShown) {
+    section.style.display = "block";
   } else {
-    section.style.display = "none";  // Hide it
+    section.style.display = "none";
   }
 }
+
 
 // 1. Setup listeners as soon as the window loads
 window.onload = function() {
@@ -224,7 +230,7 @@ window.onload = function() {
 
 function addBlock() {
     const div = document.createElement('div');
-    div.className = 'cassette-row'; // [cite: 10, 37]
+    div.className = 'cassette-row'; 
     div.innerHTML = `
         <input type="text" class="c-id" placeholder="ID" oninput="generateReport()">
         <input type="text" class="c-desc" placeholder="Desc" oninput="generateReport()">
@@ -245,32 +251,32 @@ function generateReport() {
     const opening = document.querySelector('input[name="opening"]:checked').value;
     
     r += `Specimen is received ${labeling} "${labelTxt}", `;
-    r += `consisting of an ${opening} segment of colon. [cite: 38, 39]\n`;
+    r += `consisting of an ${opening} segment of colon.\n`;
 
     // Serosa & Mesorectum [cite: 28, 29, 40]
     const serosa = document.querySelector('input[name="serosa"]:checked').value;
-    r += `The serosal surface is ${serosa}. [cite: 40] `;
+    r += `The serosal surface is ${serosa}.`;
     
     const meso = document.querySelector('input[name="meso"]:checked');
-    if(meso) r += `The mesorectum is ${meso.value}. [cite: 41] `;
+    if(meso) r += `The mesorectum is ${meso.value}.`;
 
     // Lesion [cite: 30, 42]
     const lLoc = document.getElementById('l_loc').value || "[Location]";
     const lSize = document.getElementById('l_size').value || "[Size]";
-    r += `\n\nA lesion is identified at the ${lLoc}, measuring ${lSize} cm. [cite: 42] `;
+    r += `\n\nA lesion is identified at the ${lLoc}, measuring ${lSize} cm.`;
 
     // Perforation [cite: 31, 44]
     const perf = document.querySelector('input[name="perf"]:checked').value;
     r += `Gross tumor perforation is ${perf}${perf === 'present' ? 
-        ' (' + document.getElementById('perf_size').value + ' cm)' : ''}. [cite: 43, 44] `;
+        ' (' + document.getElementById('perf_size').value + ' cm)' : ''}.`;
 
     // Remaining Colon & Appendix [cite: 32, 33, 45]
-    r += `\n\nThe remaining colon ${document.getElementById('rem_col').value}. [cite: 45] `;
+    r += `\n\nThe remaining colon ${document.getElementById('rem_col').value}.`;
     
     if(document.getElementById('has_app').checked) {
         const appStatus = document.getElementById('app_status').value;
         const appLumen = document.getElementById('app_lumen').value || "no significant findings";
-        r += `The appendix is ${appStatus} and the lumen contains ${appLumen}. [cite: 46, 47] `;
+        r += `The appendix is ${appStatus} and the lumen contains ${appLumen}.`;
     }
 
     // Cassette Summary [cite: 35, 48]
