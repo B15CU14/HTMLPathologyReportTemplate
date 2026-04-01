@@ -97,6 +97,11 @@
             <label><input type="checkbox" name="TumorSite" value="Sigmoid colon" data-label="Tumor Site"> Sigmoid colon</label>
             <label><input type="checkbox" name="TumorSite" value="Rectosigmoid" data-label="Tumor Site"> Rectosigmoid</label>
             <label><input type="checkbox" name="TumorSite" value="Rectum" data-label="Tumor Site"> Rectum</label>
+            <div id="rectum-part" class="sub-question" style="display: true;">
+                <label><input type="checkbox" name="TumorSite" value="Upper rectum" data-label="Tumor Site"> Upper rectum</label>
+                <label><input type="checkbox" name="TumorSite" value="Middle rectum" data-label="Tumor Site"> Middle rectum</label>
+                <label><input type="checkbox" name="TumorSite" value="Lower rectum" data-label="Tumor Site"> Lower rectum</label>
+            </div>
             <label><input type="checkbox" name="TumorSite" value="Colon, NOS" data-label="Tumor Site"> Colon, NOS</label>
         </div>
 
@@ -405,7 +410,15 @@
                         if (input.type === 'radio') {
                             if (val === "All margins negative") {
                                 const subDiv = document.getElementById('Negative_margin');
-                                const margins = Array.from(subDiv.querySelectorAll('input[name="ClosestMargin"]:checked')).map(m => m.value);
+                                const margins = Array.from(subDiv.querySelectorAll('input[name="ClosestMargin"]:checked')).map(m => {
+                                    const marginVal = m.value;
+                                    if (marginVal === "Other") {
+                                        const otherMargin = m.parentElement.querySelector('input[type="text"]')?.value.trim();
+                                        return otherMargin ? otherMargin : "Other";
+                                    }
+                                    return marginVal;
+                                });
+
                                 const distance = subDiv.querySelector('input[name="MarginDistance"]')?.value;
                                 val += margins.length > 0 ? ` (closest: ${margins.join(', ')}${distance ? `; distance: ${distance} cm` : ""})` : "";
                             } 
