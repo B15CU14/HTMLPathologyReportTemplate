@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAP Colorectal Resection Protocol 4.4.0.1</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; max-width: 900px; line-height: 1.6; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+        h2 { background-color: #f0f4f8; padding: 10px; border-left: 5px solid #3498db; margin-top: 30px; }
+        h3 { color: #2980b9; margin-top: 20px; font-size: 1.1em; }
+        h6 { color: #7f8c8d; font-size: 0.9em; margin-top: -10px; margin-bottom: 10px; font-weight: normal; }
+        .question-block { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 4px; }
+        .question-label { font-weight: bold; display: block; margin-bottom: 5px; }
+        .sub-question {margin-left: 30px; padding: 10px;border-left: 2px solid #ccc;background-color: #f9f9f9;margin-top: 5px;}
+        label { display: block; margin-bottom: 5px; cursor: pointer; }
+        input[type="text"], input[type="number"] { padding: 5px; width:auto; margin-left: 10px; }
+        .synoptic-container { background-color: #e8f6f3; padding: 20px; border: 2px solid #1abc9c; margin-top: 40px; border-radius: 8px; }
+        .synoptic-title { font-size: 1.5em; font-weight: bold; color: #16a085; margin-bottom: 15px; }
+        ul.synoptic-list { list-style-type: disc; padding-left: 20px; }
+        li.synoptic-item { margin-bottom: 5px; font-family: 'Courier New', Courier, monospace; }
+        .note { font-size: 0.85em; color: #666; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <h1>CAP Protocol: HCC 4.3.0.0</h1>
+    <p><em>Based on AJCC 8th Edition</em></p>
+
+    <form id="capForm">
+
+        <h2>Specimen</h2>
+        
+        <div class="question-block">
+            <span class="question-label">Procedure</span>
+            <label><input type="radio" name="Procedure" value="wedge resection" data-label="Procedure"> Wedge resection</label>
+            <label><input type="radio" name="Procedure" value="major hepatectomy" data-label="Procedure"> Partial hepatectomy, major (3 segments or more) </label>
+            <label><input type="radio" name="Procedure" value="minor hepatectomy" data-label="Procedure"> Partial hepatectomy, minor (less than 3 segments) </label>
+            <label><input type="radio" name="Procedure" value="unspecified hepatectomy" data-label="Procedure"> Partial hepatectomy (not otherwise specified)</label>
+            <label><input type="radio" name="Procedure" value="total hepatectomy" data-label="Procedure"> Total hepatectomy</label>
+            <label><input type="radio" name="Procedure" value="Other" data-label="Procedure" class="has-text"> Other: <input type="text" name="Procedure_Other"></label>
+            <label><input type="radio" name="Procedure" value="Not specified" data-label="Procedure" onclick="resetOtherInputs(this)"> Not specified</label>
+        </div>
+        
+              
+        <h2>Tumor</h2>
+        <div class="question-block">
+            <span class="question-label">Histologic Type</span>
+            <label><input type="radio" name="Histology" value="Hepatocellular carcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)" checked> Hepatocellular carcinoma</label>
+            <label><input type="radio" name="Histology" value="Hepatocellular carcinoma, fibrolamellar" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Hepatocellular carcinoma, fibrolamellar</label>
+            <label><input type="radio" name="Histology" value="Hepatocellular carcinoma, scirrhous" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Hepatocellular carcinoma, scirrhous</label>
+            <label><input type="radio" name="Histology" value="Hepatocellular carcinoma, clear cell type" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Hepatocellular carcinoma, clear cell type</label>
+            <label><input type="radio" name="Histology" value="Other" data-label="Histologic Type" onclick="resetOtherInputs(this)" class="has-text">  Other histologic type not listed (specify): <input type="text" name="Histology_Other"></label>
+            <label><input type="radio" name="Histology" value="Carcinoma, type cannot be determined" data-label="Histologic Type" onclick="resetOtherInputs(this)"> Carcinoma, type cannot be determined</label>
+            
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Histologic Grade</span>
+            <h6>For multiple tumors, select the worst grade. </h6>
+            <label><input type="radio" name="Grade" value="G1, well-differentiated" data-label="Histologic Grade"> G1, well-differentiated</label>
+            <label><input type="radio" name="Grade" value="G2, moderately differentiated" data-label="Histologic Grade" checked> G2, moderately differentiated</label>
+            <label><input type="radio" name="Grade" value="G3, poorly differentiated" data-label="Histologic Grade"> G3, poorly differentiated</label>
+            <label><input type="radio" name="Grade" value="G4, undifferentiated" data-label="Histologic Grade"> G4, undifferentiated</label>
+            <label><input type="radio" name="Grade" value="GX, cannot be assessed" data-label="Histologic Grade"> GX, cannot be assessed</label>
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Tumor focality</span>
+            <label><input type="radio" name="TumorFocality" value="Single" data-label="Tumor Focality" checked> Single</label>
+            <label><input type="radio" name="TumorFocality" value="Multifocal" data-label="Tumor Focality" class = "has-text"> Multifocal <input type="text" name="number_of_foci" placeholder="specify number"></label>
+        </div>
+
+        <div class="question-block" id="mass1_tumorsize">
+            <span class="question-label">Mass 1: Tumor Size</span>
+            <label><input type="radio" name="TumorSizeCheck_Mass1" value="sizeAvailable" data-label="Tumor Size" data-mass="1" checked> in cm =<input type="text" name="TumorSize_Mass1" data-label="Tumor Size (cm)"></label>
+            <label><input type="radio" name="TumorSizeCheck_Mass1" value="Cannot be determined" data-label="Tumor Size" data-mass="1" onclick="resetOtherInputs(this)"> Cannot be determined</label>
+        </div>
+
+        <div class="question-block" id="mass1_tumorsite">
+            <span class="question-label">Mass 1: Tumor Site</span>
+            <h6>Select all that apply</h6>
+            <label><input type="checkbox" name="TumorSite_Mass1" value="Right lobe" data-label="Tumor Site" data-mass="1"> Right lobe</label>
+            <label><input type="checkbox" name="TumorSite_Mass1" value="Left lobe" data-label="Tumor Site" data-mass="1"> Left lobe</label>
+            <label><input type="checkbox" name="TumorSite_Mass1" value="Caudate lobe" data-label="Tumor Site" data-mass="1"> Caudate lobe</label>
+            <label><input type="checkbox" name="TumorSite_Mass1" value="Quadrate lobe" data-label="Tumor Site" data-mass="1"> Quadrate lobe</label>
+            <label><input type="checkbox" name="TumorSite_Mass1" value="Segment" data-label="Tumor Site" data-mass="1"> Segment<input type="text" name="TumorSite_Segment_Mass1" placeholder="specify segment"></label>
+            <label><input type="checkbox" name="TumorSite_Mass1" value="Other" data-label="Tumor Site" class="has-text" data-mass="1"> Other: <input type="text" name="TumorSite_Other_Mass1"></label>
+        </div>
+
+        <div class="question-block" id="mass1_treatmenteffect">
+            <span class="question-label">Mass 1: Treatment Effect</span>
+            <label><input type="radio" name="TreatmentEffect_Mass1" value="No known presurgical therapy" data-label="Treatment Effect" data-mass="1" checked> No known presurgical therapy</label>
+            <label><input type="radio" name="TreatmentEffect_Mass1" value="Complete necrosis, no viable tumor" data-label="Treatment Effect" data-mass="1"> Complete necrosis</label>
+            <label><input type="radio" name="TreatmentEffect_Mass1" value="Incomplete necrosis, viable tumor present" data-label="Treatment Effect" class="has-text" data-mass="1"> Incomplete necrosis <input type="text" name="TumorNecrosisPercent_Mass1" placeholder="specify necrosis %"></label>
+            <label><input type="radio" name="TreatmentEffect_Mass1" value="No necrosis" data-label="Treatment Effect" data-mass="1"> No necrosis</label>
+            <label><input type="radio" name="TreatmentEffect_Mass1" value="Cannot be determined" data-label="Treatment Effect" class="has-text" data-mass="1">  Cannot be determined <input type = "text" name="TreatmentEffect_CannotBeDetermined_Mass1" placeholder="explain"></label>
+        </div>
+
+        <div class ='question-block' id="mass1_satellitosis">
+            <span class="question-label">Mass 1: Satellitosis</span>
+            <label><input type ="radio" name="Satellitosis_Mass1" value="Not identified" data-label="Satellitosis" data-mass="1" checked> Not identified</label>
+            <label><input type ="radio" name="Satellitosis_Mass1" value="Present" data-label="Satellitosis" data-mass="1"> Present</label>
+            <label><input type ="radio" name="Satellitosis_Mass1" value="Cannot be determined" data-label="Satellitosis" data-mass="1"> Cannot be determined</label>
+        </div>
+
+        <!-- Container for dynamically generated mass blocks -->
+        <div id="dynamicMassesContainer"></div>
+
+
+        <div class="question-block">
+            <span class="question-label">Tumor Extent</span>
+            <h6> Select all that apply</h6>
+            <label><input type="checkbox" name="Extent" value="No evidence of primary tumor" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> No evidence of primary tumor</label>
+            <label><input type="checkbox" name="Extent" value="Confined to liver" data-label="Tumor Extent" onclick="resetOtherInputs(this)" c> Confined to liver</label>
+            <label><input type="checkbox" name="Extent" value="Involves a major branch of the portal vein" data-label="Tumor Extent"> Involves a major branch of the portal vein </label>
+            <label><input type="checkbox" name="Extent" value="Involves hepatic vein(s)" data-label="Tumor Extent"> Involves hepatic vein(s)</label>
+            <label><input type="checkbox" name="Extent" value="Perforates visceral peritoneum" data-label="Tumor Extent"> Perforates visceral peritoneum</label>
+            <label><input type="checkbox" name="Extent" value="Directly invades gallbladder" data-label="Tumor Extent"> Directly invades gallbladder</label>
+            <label><input type="checkbox" name="Extent" value="Directly invades diaphragm" data-label="Tumor Extent">  Directly invades diaphragm</label>           
+            <label><input type="checkbox" name="Extent" value="Invasion of adjacent organs/structures" data-label="Tumor Extent" class="has-text"> Invasion of adjacent organs/structures <input type="text" name="Extent_AdjacentOrgans" placeholder="specify organ(s)"></label>
+            <label><input type="checkbox" name="Extent" value="Cannot be determined" data-label="Tumor Extent"> Cannot be determined </label>
+        </div>
+
+        
+        <div class="question-block">
+            <span class="question-label">Vascular Invasion</span>
+            <label><input type="radio" name="LVI" value="Not identified" data-label="Vascular invasion" onclick="toggleSub('lvi-details', false)">Not identified</label>
+            <label><input type="radio" name="LVI" value="Present" data-label="Vascular invasion" onclick="toggleSub('lvi-details', true)">Present</label>
+                <div id="lvi-details" class="sub-question" style="display: none;">
+                    <label><input type="checkbox" name="LVI_details" value="Small vessel" data-label="Vascular invasion" class="has text"> Small vessel <input type = "text" name = "small_LVI_number" placeholder="specify number"></label>
+                    <label><input type="checkbox" name="LVI_details" value="Large vessel" data-label="Vascular invasion" class="has text"> Large vessel <input type = "text" name = "large_LVI_number" placeholder="specify number"> </label>
+                    <label><input type="checkbox" name="LVI_details" value="Not otherwise specified" data-label="Vascular invasion" class="has text"> Not otherwised specified <input type = "text" name = "unspecified_LVI_number" placeholder="specify number"> </label>
+                </div>
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Perineural Invasion</span>
+            <label><input type="radio" name="PNI" value="Not identified" data-label="Perineural Invasion" onclick="resetOtherInputs(this)" checked> Not identified</label>
+            <label><input type="radio" name="PNI" value="Present" data-label="Perineural Invasion" onclick="resetOtherInputs(this)"> Present</label>
+        </div>
+
+        
+
+        <h2>Margins</h2>
+
+        <div class="question-block">
+            <label><input type="radio" name="MarginStatus" value="All margins negative" data-label="Margin Status" onclick="toggleSub('Negative_margin', true); resetOtherInputs(this)"> All margins negative for invasive carcinoma</label>
+                <div id="Negative_margin" class="sub-question" style ="display: none;">
+                    <span class="question-label">Closest Margin(s) to Invasive Carcinoma</span>
+                        <label><input type="checkbox" name="ClosestMargin" value="parenchymal" > Parenchymal</label>
+                        <label><input type="checkbox" name="ClosestMargin" value="Other" class="has-text"><input type="text" placeholder="Specify other margin"></label>
+                    <span class="question-label">Distance to Closest Margin</span>
+                        <label>cm: <input type="text" name="MarginDistance"></label>
+                </div>
+            <label class="has-text"><input type="radio" name="MarginStatus" value="Invasive carcinoma present at margin" data-label="Margin Status" class="has-text" onclick="toggleSub('Negative_margin', false)"> Invasive carcinoma present at<input type="text" name="Positive margin"> margin</label>
+        </div>
+
+        
+
+        <h2>Regional Lymph Nodes</h2>
+        <div class="question-block">
+            <span class="question-label">Regional Lymph Node Status</span>
+            <label>
+                <input type="radio" name="LN_Radio" data-label="Lymph node metastasis" id="ln_ratio_radio">
+                <input type="text" id="ln_meta" name="LNStatus_Meta" placeholder="Positive" size="3" oninput="calculatePN()"> / 
+                <input type="text" id="ln_total" name="LNStatus_Total" placeholder="Total" size="3">
+            </label>
+            <label>
+                <input type="radio" name="LN_Radio" value="Not applicable" data-label="Lymph node metastasis" onclick="resetOtherInputs(this)"> Not applicable
+            </label>
+        </div>
+
+        
+        <h2>Additional Findings</h2>
+        <div class="question-block">
+            <span class="question-label">Select all that apply</span>
+            <label><input type="checkbox" name="AddFindings" value="Cirrhosis" data-label="Additional Findings">Cirrhosis</label>
+            <label><input type="checkbox" name="AddFindings" value="Steatosis" data-label="Additional Findings">Steatosis</label>
+            <label><input type="checkbox" name="AddFindings" value="Chronic cholecystitis" data-label="Additional Findings">Chronic cholecystitis</label>
+            <label><input type="checkbox" name="AddFindings" value="Other" data-label="Additional Findings" class="has-text"><input type="text" name="Other"></label>
+        </div>
+
+        
+        <h2>pTNM Classification (AJCC 8th Ed)</h2>
+        <div class="question-block">
+            <span class="question-label" id = "TModifier">Prefix/Suffix</span>
+            <label><input type="checkbox" name="prefix" value="y" data-label="y_post treatment">y (post treatment)</label>
+            <label><input type="checkbox" name="prefix" value="r" data-label="r_recurrent">r (recurrent)</label>
+            <label><input type="checkbox" name="suffix" value="m" data-label="m_multiple">m (multiple primary)</label>
+        </div>
+        
+        <div class="question-block">
+            <span class="question-label" id="TStage">pT Category</span>
+            <label><input type="radio" name="pT" value="pT not assigned (cannot be determined based on available pathological information)" data-label="pT Category"> pT not assigned (cannot be determined based on available pathological information) </label>
+            <label><input type="radio" name="pT" value="pT0" data-label="pT Category"> pT0: No evidence of primary tumor</label>
+            <label><input type="radio" name="pT" value="pT1" data-label="pT Category"> pT1 (subcategory cannot be determined) </label>
+            <label><input type="radio" name="pT" value="pT1a" data-label="pT Category"> pT1a: Solitary tumor ≤ 2 cm </label>
+            <label><input type="radio" name="pT" value="pT1b" data-label="pT Category"> pT1b: Solitary tumor > 2 cm w/o vascular invasion </label>
+            <label><input type="radio" name="pT" value="pT2" data-label="pT Category"> pT2: Solitary tumor > 2 cm w vascular invasion / multiple tumors but none > 5 cm </label>
+            <label><input type="radio" name="pT" value="pT3" data-label="pT Category"> pT3: Multiple tumors, at least one > 5 cm</label>
+            <label><input type="radio" name="pT" value="pT4a" data-label="pT Category"> pT4: Any size/focal involving a major branch of the portal vein or hepatic vein/ or direct invasion of adjacent organs other than the gallbladder/ or perforation of visceral peritoneum </label>
+        </div>
+
+        <div class="question-block" id="pn-category-section">
+            <span class="question-label" id="NStage">pN Category</span>
+            <label><input type="radio" name="N" value="N Not assign (no nodes submitted or found)" data-label="N Category"> N not assigned (no nodes submitted or found) </label>
+            <label><input type="radio" name="N" value="N Not assign (cannot be determined based on available pathological information)" data-label="N Category"> N not assigned (cannot be determined based on available pathological information) </label>
+            <label><input type="radio" name="N" id = "N0" value="N0: No regional Lymph node metastasis" data-label="N Category"> N0: No regional LN metastasis</label>
+            <label><input type="radio" name="N" id = "N1" value="N1: Regional lymph node metastasis" data-label="N Category"> N1: Regional lymph node metastasis</label>
+        </div>
+
+        <div class="question-block" id="MStage">
+            <span class="question-label">pM Category</span>
+            <label><input type="radio" name="M" value="M Not applicable:" data-label="M Category" checked> M Not applicable - pM cannot be determined from the submitted specimen(s)</label>
+            <label><input type="radio" name="M" value="M1" data-label="M Category"> M1: Distance metastasis</label>
+        </div>
+
+        
+
+    </form>
+
+    <div class="synoptic-container">       
+        <div class="synoptic-title">Synoptic Report</div>
+        <ul id="synopticList" class="synoptic-list">
+            <li class="synoptic-item">Please select options above to generate the report.</li>
+        </ul>
+        <button type="button" id="copyBtn" onclick="copyReport()" style="padding: 5px 15px; cursor: pointer; background-color: #1abc9c; color: white; border: none; border-radius: 4px; font-weight: bold;">
+            Copy Report
+        </button>
+    </div>
+
+<script>
+    function copyReport() {
+        const listItems = document.querySelectorAll('#synopticList li');
+        const btn = document.getElementById('copyBtn');
+        if (!listItems.length || listItems[0].innerText.includes("Please select")) {
+            alert("Report is empty.");
+            return;
+        }
+        const reportText = Array.from(listItems).map(li => {
+            if (li.style.listStyleType === 'none') return li.innerText; 
+            return `• ${li.innerText}`; 
+        }).join('\n');
+
+        navigator.clipboard.writeText(reportText).then(() => {
+            alert("Report copied to clipboard!");
+        });
+    }
+
+    function toggleSub(containerId, show) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.style.display = show ? 'block' : 'none';
+    }
+
+    function resetOtherInputs(element) {
+        const radioGroup = Array.from(document.getElementsByName(element.name));
+        radioGroup.forEach(radio => {
+            if (radio === element) return;
+            const otherInput = radio.parentElement.querySelector('input[type="text"], input[type="number"]');
+            if (otherInput) otherInput.value = '';
+        });
+        // If LN 'Not applicable' selected, clear the positive/total inputs
+        if (element.name === 'LN_Radio' && element.value === 'Not applicable') {
+            const meta = document.getElementById('ln_meta');
+            const total = document.getElementById('ln_total');
+            if (meta) meta.value = '';
+            if (total) total.value = '';
+        }
+    }
+
+    function generateDynamicMasses() {
+        const focality = document.querySelector('input[name="TumorFocality"]:checked')?.value;
+        const numFociInput = document.querySelector('input[name="number_of_foci"]');
+        const container = document.getElementById('dynamicMassesContainer');
+        container.innerHTML = '';
+
+        // Clear number_of_foci if Focal is selected
+        if (focality === 'Focal' && numFociInput) {
+            numFociInput.value = '';
+            updateReport();
+            return;
+        }
+
+        if (focality !== 'Multifocal') return;
+
+        let numMasses = parseInt(numFociInput?.value) || 0;
+        if (numMasses <= 1) return;
+        if (numMasses > 5) numMasses = 5;
+
+        for (let i = 2; i <= numMasses; i++) {
+            const massHtml = `
+                <div class="question-block" id="mass${i}_tumorsize">
+                    <span class="question-label">Mass ${i}: Tumor Size</span>
+                    <label><input type="radio" name="TumorSizeCheck_Mass${i}" value="sizeAvailable" data-label="Tumor Size" data-mass="${i}" checked> in cm =<input type="text" name="TumorSize_Mass${i}" data-label="Tumor Size (cm)"></label>
+                    <label><input type="radio" name="TumorSizeCheck_Mass${i}" value="Cannot be determined" data-label="Tumor Size" data-mass="${i}" onclick="resetOtherInputs(this)"> Cannot be determined</label>
+                </div>
+                <div class="question-block" id="mass${i}_tumorsite">
+                    <span class="question-label">Mass ${i}: Tumor Site</span>
+                    <h6>Select all that apply</h6>
+                    <label><input type="checkbox" name="TumorSite_Mass${i}" value="Right lobe" data-label="Tumor Site" data-mass="${i}"> Right lobe</label>
+                    <label><input type="checkbox" name="TumorSite_Mass${i}" value="Left lobe" data-label="Tumor Site" data-mass="${i}"> Left lobe</label>
+                    <label><input type="checkbox" name="TumorSite_Mass${i}" value="Caudate lobe" data-label="Tumor Site" data-mass="${i}"> Caudate lobe</label>
+                    <label><input type="checkbox" name="TumorSite_Mass${i}" value="Quadrate lobe" data-label="Tumor Site" data-mass="${i}"> Quadrate lobe</label>
+                    <label><input type="checkbox" name="TumorSite_Mass${i}" value="Segment" data-label="Tumor Site" data-mass="${i}"> Segment<input type="text" name="TumorSite_Segment_Mass${i}" placeholder="specify segment"></label>
+                    <label><input type="checkbox" name="TumorSite_Mass${i}" value="Other" data-label="Tumor Site" class="has-text" data-mass="${i}"> Other: <input type="text" name="TumorSite_Other_Mass${i}"></label>
+                </div>
+                <div class="question-block" id="mass${i}_treatmenteffect">
+                    <span class="question-label">Mass ${i}: Treatment Effect</span>
+                    <label><input type="radio" name="TreatmentEffect_Mass${i}" value="No known presurgical therapy" data-label="Treatment Effect" data-mass="${i}" checked> No known presurgical therapy</label>
+                    <label><input type="radio" name="TreatmentEffect_Mass${i}" value="Complete necrosis, no viable tumor" data-label="Treatment Effect" data-mass="${i}"> Complete necrosis</label>
+                    <label><input type="radio" name="TreatmentEffect_Mass${i}" value="Incomplete necrosis, viable tumor present" data-label="Treatment Effect" class="has-text" data-mass="${i}"> Incomplete necrosis <input type="text" name="TumorNecrosisPercent_Mass${i}" placeholder="specify necrosis %"></label>
+                    <label><input type="radio" name="TreatmentEffect_Mass${i}" value="No necrosis" data-label="Treatment Effect" data-mass="${i}"> No necrosis</label>
+                    <label><input type="radio" name="TreatmentEffect_Mass${i}" value="Cannot be determined" data-label="Treatment Effect" class="has-text" data-mass="${i}"> Cannot be determined <input type="text" name="TreatmentEffect_CannotBeDetermined_Mass${i}" placeholder="explain"></label>
+                </div>
+                <div class="question-block" id="mass${i}_satellitosis">
+                    <span class="question-label">Mass ${i}: Satellitosis</span>
+                    <label><input type="radio" name="Satellitosis_Mass${i}" value="Not identified" data-label="Satellitosis" data-mass="${i}" checked> Not identified</label>
+                    <label><input type="radio" name="Satellitosis_Mass${i}" value="Present" data-label="Satellitosis" data-mass="${i}"> Present</label>
+                    <label><input type="radio" name="Satellitosis_Mass${i}" value="Cannot be determined" data-label="Satellitosis" data-mass="${i}"> Cannot be determined</label>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', massHtml);
+        }
+
+        // Re-attach event listeners to newly created inputs
+        attachEventListeners();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('capForm');
+        const reportList = document.getElementById('synopticList');
+        const inputs = form.querySelectorAll('input');
+
+        function attachEventListeners() {
+            const allInputs = form.querySelectorAll('input');
+            allInputs.forEach(input => {
+                input.addEventListener('change', () => {
+                    if (input.name === 'Extent' || input.name === 'LVI' || input.name === 'TumorFocality' || input.name === 'TumorSizeCheck_Mass1') calculatePT(); 
+                    updateReport();
+                });
+                input.addEventListener('input', () => {
+                    if (input.id === 'ln_meta' || input.name === 'TumorDepositsNum' || input.name === 'TumorSize_Mass1') calculatePN();
+                    updateReport();
+                });
+            });
+        }
+
+        function calculatePN() {
+            const positiveNodes = parseInt(document.getElementById('ln_meta').value) || 0;
+            let targetId = "";
+            if (positiveNodes === 0) targetId = "N0";
+            else if (positiveNodes > 0) targetId = "N1";
+            if (targetId) {
+                const el = document.getElementById(targetId);
+                if (el) el.checked = true;
+            }
+        }
+        
+        function calculatePT(){
+            let targetPT = "";
+
+            // Step 1: Check extent values for immediate pT assignments
+            // Since Extent uses checkboxes, check if specific values are selected
+            const confinedToLiver = document.querySelector('input[name="Extent"][value="Confined to liver"]:checked');
+            const noEvidence = document.querySelector('input[name="Extent"][value="No evidence of primary tumor"]:checked');
+            const cannotBeDetermined = document.querySelector('input[name="Extent"][value="Cannot be determined"]:checked');
+            
+            // Check for vascular invasion related extents
+            const hasVascularInvasion = document.querySelector('input[name="Extent"][value="Involves a major branch of the portal vein"]:checked') ||
+                                        document.querySelector('input[name="Extent"][value="Involves hepatic vein(s)"]:checked') ||
+                                        document.querySelector('input[name="Extent"][value="Perforates visceral peritoneum"]:checked') ||
+                                        document.querySelector('input[name="Extent"][value="Directly invades diaphragm"]:checked') ||
+                                        document.querySelector('input[name="Extent"][value="Invasion of adjacent organs/structures"]:checked');
+
+            if (noEvidence) {
+                targetPT = "pT0";
+            } else if (hasVascularInvasion) {
+                targetPT = "pT4a";
+            } else if (cannotBeDetermined) {
+                targetPT = "pT not assigned (cannot be determined based on available pathological information)";
+            } else if (confinedToLiver) {
+                // Parse tumor size and determine pT based on focality
+                const focality = document.querySelector('input[name="TumorFocality"]:checked')?.value;
+                
+                if (focality === "Single") {
+                    // Single tumor: parse TumorSize_Mass1, find max, apply rules
+                    const sizeStr = document.querySelector('input[name="TumorSize_Mass1"]')?.value || "";
+                    let sizes = [];
+                    
+                    if (sizeStr) {
+                        if (sizeStr.includes('x')) {
+                            // Parse dimensions separated by 'x' (e.g., "3x2.5")
+                            sizes = sizeStr.split('x').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+                        } else {
+                            // Single dimension entered
+                            const num = parseFloat(sizeStr.trim());
+                            if (!isNaN(num)) {
+                                sizes = [num];
+                            }
+                        }
+                    }
+                    
+                    console.log("Single tumor - Size string:", sizeStr, "Parsed sizes:", sizes);
+                    
+                    if (sizes.length > 0) {
+                        const maxSize = Math.max(...sizes);
+                        console.log("Max size:", maxSize);
+                        
+                        if (maxSize <= 2) {
+                            targetPT = "pT1a";
+                        } else if (maxSize > 2) {
+                            // Check LVI main radio button (Not identified or Present) - be specific about type="radio"
+                            const lviNotIdentifiedRadio = document.querySelector('input[type="radio"][name="LVI"][value="Not identified"]');
+                            const lviPresentRadio = document.querySelector('input[type="radio"][name="LVI"][value="Present"]');
+                            
+                            console.log("LVI Not identified checked:", lviNotIdentifiedRadio?.checked);
+                            console.log("LVI Present checked:", lviPresentRadio?.checked);
+                            
+                            if (lviNotIdentifiedRadio && lviNotIdentifiedRadio.checked) {
+                                targetPT = "pT1b";
+                            } else if (lviPresentRadio && lviPresentRadio.checked) {
+                                targetPT = "pT2";
+                            } else {
+                                // Default to pT1b if neither is explicitly checked
+                                targetPT = "pT1b";
+                            }
+                        }
+                    }
+                } else if (focality === "Multifocal") {
+                    // Multiple tumors: parse all TumorSize_Mass1-5, find max from all masses
+                    let allSizes = [];
+                    
+                    for (let i = 1; i <= 5; i++) {
+                        const sizeStr = document.querySelector(`input[name="TumorSize_Mass${i}"]`)?.value || "";
+                        const sizes = sizeStr.split('x').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+                        allSizes = allSizes.concat(sizes);
+                    }
+                    
+                    if (allSizes.length > 0) {
+                        const maxSize = Math.max(...allSizes);
+                        
+                        if (maxSize < 5) {
+                            targetPT = "pT2";
+                        } else {
+                            targetPT = "pT3";
+                        }
+                    }
+                }
+            }
+
+            if (targetPT) {
+                console.log("Target pT determined:", targetPT);
+                const ptRadio = document.querySelector(`input[name="pT"][value="${targetPT}"]`);
+                console.log("pT Radio found:", ptRadio);
+                if (ptRadio) {
+                    ptRadio.checked = true;
+                    console.log("pT Radio set to checked");
+                }
+            } else {
+                console.log("No target pT determined");
+            }
+        }
+
+
+
+        function updateReport() {
+            reportList.innerHTML = '';
+            const data = {};
+
+            // 1. HEADER (Process first but render as header)
+            const procInput = document.querySelector('input[name="Procedure"]:checked');
+            if (procInput) {
+                let procVal = procInput.value;
+                const procTxt = procInput.parentElement.querySelector('input[type="text"]')?.value.trim();
+                if (procTxt) procVal = procTxt;
+                data['Procedure'] = [procVal];
+            }
+
+            // Get focality to determine single vs multi-mass reporting
+            const focality = document.querySelector('input[name="TumorFocality"]:checked')?.value;
+            const numFociInput = document.querySelector('input[name="number_of_foci"]');
+            let maxMasses = 1;
+            if (focality === 'Multifocal') {
+                let numMasses = parseInt(numFociInput?.value) || 0;
+                if (numMasses > 5) numMasses = 5;
+                maxMasses = numMasses;
+            }
+
+            // 2. ORDERED CONTENT (This fixes the Tumor Size position)
+            const orderedLabels = [
+                "Histologic Type",
+                "Histologic Grade",
+                "Tumor Focality"
+            ];
+
+            // Add Mass-specific fields
+            const massLabels = ["Tumor Size", "Tumor Site", "Treatment Effect", "Satellitosis"];
+            const nonMassLabels = [
+                "Tumor Extent",
+                "Vascular invasion",
+                "Perineural Invasion",
+                "Margin Status",
+                "Lymph node metastasis",
+                "Additional Findings"
+            ];
+
+            // Render header fields (non-mass)
+            orderedLabels.forEach(label => {
+                const fieldInputs = Array.from(form.querySelectorAll('input')).filter(i => i.getAttribute('data-label') === label && !i.getAttribute('data-mass'));
+                
+                fieldInputs.forEach(input => {
+                    if (input.checked) {
+                        let val = input.value;
+                        if (val === "sizeAvailable") return;
+
+                        if (!data[label]) data[label] = [];
+                        
+                        const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                        if (hasText) {
+                            const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
+                            if (txt) {
+                                val = `${val}: ${txt}`;
+                            }
+                        }
+
+                        if (input.type === 'radio') {
+                            data[label].push(val);
+                        } else if (input.type === 'checkbox') {
+                            data[label].push(val);
+                        }
+                    }
+                });
+            });
+
+            // Update Tumor Focality to show count for multifocal
+            if (maxMasses > 1) {
+                data['Tumor Focality'] = [`Multiple (${maxMasses})`];
+            }
+
+            // Render list items for headers
+            for (const [key, value] of Object.entries(data)) {
+                const li = document.createElement('li');
+                li.className = 'synoptic-item';
+                li.innerHTML = `<strong>${key}:</strong> ${Array.isArray(value) ? value.join(', ') : value}`;
+                reportList.appendChild(li);
+            }
+
+            // Render mass-specific data grouped by mass
+            if (maxMasses > 1) {
+                for (let massNum = 1; massNum <= maxMasses; massNum++) {
+                    const massLi = document.createElement('li');
+                    massLi.className = 'synoptic-item';
+                    massLi.style.marginLeft = '20px';
+                    massLi.innerHTML = `<strong>Mass ${massNum}</strong>`;
+                    reportList.appendChild(massLi);
+
+                    massLabels.forEach(label => {
+                        const massFieldInputs = Array.from(form.querySelectorAll(`input[data-mass="${massNum}"]`)).filter(i => i.getAttribute('data-label') === label);
+                        let massData = [];
+
+                        massFieldInputs.forEach(input => {
+                            if (input.checked) {
+                                let val = input.value;
+                                if (val === "sizeAvailable") return;
+
+                                const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                                if (hasText) {
+                                    const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
+                                    if (txt) {
+                                        if (label === "Treatment Effect") {
+                                            const isIncomplete = input.value && input.value.includes('Incomplete necrosis');
+                                            val = `${val}${txt ? ` (${txt}${isIncomplete ? '%' : ''})` : ''}`;
+                                        } else {
+                                            val = `${val}${txt ? ` (${txt})` : ''}`;
+                                        }
+                                    }
+                                }
+
+                                // Special case: Tumor Site 'Segment'
+                                if (label === "Tumor Site" && input.type === 'checkbox' && input.value === 'Segment' && input.checked) {
+                                    const segTxt = input.parentElement.querySelector(`input[name="TumorSite_Segment_Mass${massNum}"]`)?.value.trim();
+                                    if (segTxt) {
+                                        val = `Segment ${segTxt}`;
+                                    } else {
+                                        val = 'Segment';
+                                    }
+                                }
+
+                                massData.push(val);
+                            }
+                        });
+
+                        // Manual Override for Tumor Size numeric input
+                        if (label === "Tumor Size") {
+                            const sizeInput = form.querySelector(`input[name="TumorSize_Mass${massNum}"]`);
+                            const sizeCheck = form.querySelector(`input[name="TumorSizeCheck_Mass${massNum}"]:checked`);
+                            if (sizeInput && sizeInput.value && sizeCheck && sizeCheck.value === "sizeAvailable") {
+                                massData = [`${sizeInput.value} cm`];
+                            }
+                        }
+
+                        if (massData.length > 0) {
+                            const fieldLi = document.createElement('li');
+                            fieldLi.className = 'synoptic-item';
+                            fieldLi.style.marginLeft = '40px';
+                            fieldLi.style.listStyleType = 'none';
+                            fieldLi.innerHTML = `- <strong>${label}:</strong> ${massData.join(', ')}`;
+                            reportList.appendChild(fieldLi);
+                        }
+                    });
+                }
+            } else {
+                // Single mass: render mass fields normally
+                massLabels.forEach(label => {
+                    const fieldInputs = Array.from(form.querySelectorAll('input')).filter(i => i.getAttribute('data-label') === label && i.getAttribute('data-mass') === '1');
+                    let singleData = [];
+
+                    fieldInputs.forEach(input => {
+                        if (input.checked) {
+                            let val = input.value;
+                            if (val === "sizeAvailable") return;
+
+                            const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                            if (hasText) {
+                                const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
+                                if (txt) {
+                                    if (label === "Treatment Effect") {
+                                        const isIncomplete = input.value && input.value.includes('Incomplete necrosis');
+                                        val = `${val}${txt ? ` (${txt}${isIncomplete ? '%' : ''})` : ''}`;
+                                    } else {
+                                        val = `${val}: ${txt}`;
+                                    }
+                                }
+                            }
+
+                            // Special case: Tumor Site 'Segment'
+                            if (label === "Tumor Site" && input.type === 'checkbox' && input.value === 'Segment' && input.checked) {
+                                const segTxt = input.parentElement.querySelector('input[name="TumorSite_Segment_Mass1"]')?.value.trim();
+                                if (segTxt) {
+                                    val = `Segment ${segTxt}`;
+                                } else {
+                                    val = 'Segment';
+                                }
+                            }
+
+                            singleData.push(val);
+                        }
+                    });
+
+                    // Manual Override for Tumor Size numeric input
+                    if (label === "Tumor Size") {
+                        const sizeInput = form.querySelector('input[name="TumorSize_Mass1"]');
+                        const sizeCheck = form.querySelector('input[name="TumorSizeCheck_Mass1"]:checked');
+                        if (sizeInput && sizeInput.value && sizeCheck && sizeCheck.value === "sizeAvailable") {
+                            singleData = [`${sizeInput.value} cm`];
+                        }
+                    }
+
+                    if (singleData.length > 0) {
+                        const li = document.createElement('li');
+                        li.className = 'synoptic-item';
+                        li.innerHTML = `<strong>${label}:</strong> ${singleData.join(', ')}`;
+                        reportList.appendChild(li);
+                    }
+                });
+            }
+
+            // Render non-mass fields
+            nonMassLabels.forEach(label => {
+                // Skip Lymph node metastasis - handled separately below
+                if (label === "Lymph node metastasis") return;
+
+                const fieldInputs = Array.from(form.querySelectorAll('input')).filter(i => i.getAttribute('data-label') === label && !i.getAttribute('data-mass'));
+                let nonMassData = [];
+                
+                fieldInputs.forEach(input => {
+                    // Skip LVI_details checkboxes - they're handled in the special Vascular invasion logic
+                    if (input.name === 'LVI_details') return;
+                    
+                    if (input.checked) {
+                        let val = input.value;
+                        if (val === "sizeAvailable") return;
+
+                        const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                        if (hasText) {
+                            const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
+                            if (txt) {
+                                if (label === "Margin Status") {
+                                    val = `Positive ${txt} margin`;
+                                } else {
+                                    val = `${val}: ${txt}`;
+                                }
+                            }
+                        }
+
+                        if (input.type === 'radio') {
+                            // Special handling for Vascular invasion with sub-questions
+                            if (label === "Vascular invasion" && input.value === "Present") {
+                                const subDiv = document.getElementById('lvi-details');
+                                const checkedBoxes = Array.from(subDiv.querySelectorAll('input[name="LVI_details"]:checked'));
+                                const lviDetails = checkedBoxes.map(m => {
+                                    const lviVal = m.value;
+                                    let lviNum;
+                                    if (lviVal === "Small vessel") {
+                                        lviNum = m.parentElement.querySelector('input[name="small_LVI_number"]')?.value.trim();
+                                    } else if (lviVal === "Large vessel") {
+                                        lviNum = m.parentElement.querySelector('input[name="large_LVI_number"]')?.value.trim();
+                                    } else if (lviVal === "Not otherwise specified") {
+                                        lviNum = m.parentElement.querySelector('input[name="unspecified_LVI_number"]')?.value.trim();
+                                    }
+                                    return lviNum ? `${lviVal} (${lviNum})` : lviVal;
+                                });
+                                val = lviDetails.length > 0 ? `Present, ${lviDetails.join(', ')}` : val;
+                            }
+                            // Special handling for margins
+                            if (val === "All margins negative") {
+                                const subDiv = document.getElementById('Negative_margin');
+                                const margins = Array.from(subDiv.querySelectorAll('input[name="ClosestMargin"]:checked')).map(m => {
+                                    const marginVal = m.value;
+                                    if (marginVal === "Other") {
+                                        const otherMargin = m.parentElement.querySelector('input[type="text"]')?.value.trim();
+                                        return otherMargin ? otherMargin : "Other";
+                                    }
+                                    return marginVal;
+                                });
+
+                                const distance = subDiv.querySelector('input[name="MarginDistance"]')?.value;
+                                val += margins.length > 0 ? ` (closest: ${margins.join(', ')}${distance ? `; distance: ${distance} cm` : ""})` : "";
+                            }
+                            nonMassData.push(val);
+                        } else if (input.type === 'checkbox') {
+                            nonMassData.push(val);
+                        }
+                    }
+                });
+
+                if (nonMassData.length > 0) {
+                    const li = document.createElement('li');
+                    li.className = 'synoptic-item';
+                    li.innerHTML = `<strong>${label}:</strong> ${nonMassData.join(', ')}`;
+                    reportList.appendChild(li);
+                }
+            });
+
+            // Lymph node Logic
+            const metaInput = document.getElementById('ln_meta');
+            const totalInput = document.getElementById('ln_total');
+            const ratioRadio = document.getElementById('ln_ratio_radio');
+            if (ratioRadio && ratioRadio.checked) {
+                const posVal = parseFloat(metaInput?.value) || 0;
+                const totVal = totalInput?.value || "0";
+                const status = posVal > 0 ? "Present" : "Not identified";
+                const li = document.createElement('li');
+                li.className = 'synoptic-item';
+                li.innerHTML = `<strong>Lymph node metastasis:</strong> ${status} (${posVal}/${totVal})`;
+                reportList.appendChild(li);
+            }
+
+            // 3. TNM CLASSIFICATION (Always at the end)
+            const prefix = document.querySelector('input[name="prefix"]:checked')?.value || '';
+            const suffix = document.querySelector('input[name="suffix"]:checked')?.value || '';
+            const pT = document.querySelector('input[name="pT"]:checked')?.value.split(':')[0] || '';
+            const pN = document.querySelector('input[name="N"]:checked')?.value.split(':')[0] || '';
+            const pM = document.querySelector('input[name="M"]:checked')?.value.split(':')[0] || '';
+            if (pT || pN || pM) {
+                const li = document.createElement('li');
+                li.className = 'synoptic-item';
+                li.innerHTML = `<strong>TNM Classification:</strong> ${`${prefix}${pT}${suffix} ${pN} ${pM}`.trim()}`;
+                reportList.appendChild(li);
+            }
+        }
+
+        inputs.forEach(input => {
+        input.addEventListener('change', () => {
+        // Trigger pT calculation when Extent changes
+        if (input.name === 'Extent') calculatePT(); 
+        updateReport();
+        });
+        input.addEventListener('input', () => {
+        if (input.id === 'ln_meta' || input.name === 'TumorDepositsNum') calculatePN();
+        updateReport();
+            });
+        });
+
+        // Add event listeners for Multifocal and number_of_foci
+        const multifocalRadios = document.querySelectorAll('input[name="TumorFocality"]');
+        const numFociInput = document.querySelector('input[name="number_of_foci"]');
+
+        multifocalRadios.forEach(radio => {
+            radio.addEventListener('change', generateDynamicMasses);
+        });
+
+        if (numFociInput) {
+            numFociInput.addEventListener('input', generateDynamicMasses);
+            numFociInput.addEventListener('change', generateDynamicMasses);
+        }
+
+        // Initial event listener attachment
+        attachEventListeners();
+    });
+</script>
+
+</body>
+</html>
