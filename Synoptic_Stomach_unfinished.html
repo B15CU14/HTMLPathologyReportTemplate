@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAP Colorectal Resection Protocol 4.4.0.1</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; max-width: 900px; line-height: 1.6; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+        h2 { background-color: #f0f4f8; padding: 10px; border-left: 5px solid #3498db; margin-top: 30px; }
+        h3 { color: #2980b9; margin-top: 20px; font-size: 1.1em; }
+        h6 { color: #7f8c8d; font-size: 0.9em; margin-top: -10px; margin-bottom: 10px; font-weight: normal; }
+        .question-block { margin-bottom: 15px; padding: 10px; border: 1px solid #eee; border-radius: 4px; }
+        .question-label { font-weight: bold; display: block; margin-bottom: 5px; }
+        .sub-question {margin-left: 30px; padding: 10px;border-left: 2px solid #ccc;background-color: #f9f9f9;margin-top: 5px;}
+        label { display: block; margin-bottom: 5px; cursor: pointer; }
+        input[type="text"], input[type="number"] { padding: 5px; width:auto; margin-left: 10px; }
+        .synoptic-container { background-color: #e8f6f3; padding: 20px; border: 2px solid #1abc9c; margin-top: 40px; border-radius: 8px; }
+        .synoptic-title { font-size: 1.5em; font-weight: bold; color: #16a085; margin-bottom: 15px; }
+        ul.synoptic-list { list-style-type: disc; padding-left: 20px; }
+        li.synoptic-item { margin-bottom: 5px; font-family: 'Courier New', Courier, monospace; }
+        .note { font-size: 0.85em; color: #666; font-style: italic; }
+        .tooltip {  position: relative;  cursor: pointer;}
+        .tooltip .tooltiptext {  visibility: hidden;  background-color: #333;  color: #fff;  padding: 5px 10px;  border-radius: 4px;  position: absolute;  bottom: 125%;  left: 50%;  transform: translateX(-50%);width: 250px;  white-space: normal;  font-size: 13px;  z-index: 1;}
+        .tooltip:hover .tooltiptext {  visibility: visible;}
+        .info-btn { font-size: 0.75em; padding: 2px 5px; cursor: pointer; background-color: #3498db; color: #fff; border: none; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
+        .info-btn:hover { background-color: #2980b9; }
+    </style>
+</head>
+<body>
+
+    <h1>CAP Protocol: Stomach</h1>
+    <p><em>Based on AJCC 8th Edition</em></p>
+
+    <form id="capForm">
+             
+
+        <h2>Tumor</h2>
+        <div class="question-block">
+            <span class="question-label">Histologic Type</span>
+            
+            <label><input type="radio" name="Histology" value="Adenocarcinoma" data-label="Histologic Type" onclick="resetOtherInputs(this)" checked> Adenocarcinoma</label>
+            <div id="adeno_subtype" class="sub-question" style="display: block;">
+                <label><input type="radio" name="AdenoSubtype" value="Intestinal type" data-label="Adenocarcinoma subtype"> Tubular/Intestinal type</label>
+                <label><input type="radio" name="AdenoSubtype" value="Diffuse type" data-label="Adenocarcinoma subtype"><span title="includes signet-ring cell carcinoma and other variants"> Poorly cohesive/Diffuse type</span></label>
+                <label><input type="radio" name="AdenoSubtype" value="Mucinous type" data-label="Adenocarcinoma subtype"> <span title=">50% mucin"> Mucinous adenocarcinoma</span></label>
+                <label><input type="radio" name="AdenoSubtype" value="Mixed type" data-label="Adenocarcinoma subtype"> Papillary </label>
+                <label><input type="radio" name="AdenoSubtype" value="Mixed type" data-label="Adenocarcinoma subtype"> <span title = "mixture of discrete glandular (tubular / papillary) and signet-ring / poorly
+                cohesive cellular histological components">Mixed type</span></label>
+                <label><input type="radio" name="AdenoSubtype" value="Not otherwise specified (NOS)" data-label="Adenocarcinoma subtype"> Not otherwise specified (NOS)</label>
+            </div>
+            <label><input type="radio" name="Histology" value="Hepatoid adenocarcinoma" data-label="Histologic Type" > Hepatoid adenocarcinoma</label>
+            <label><input type="radio" name="Histology" value="(Adeno)carcinoma with lymphoid stroma" data-label="Histologic Type" > (Adeno)carcinoma with lymphoid stroma</label>
+            <label><input type="radio" name="Histology" value="Micropapillary adenocarcinoma" data-label="Histologic Type" > <span title ="Micropapillary 10-90%"> Micropapillary adenocarcinoma</span></label>
+            <label><input type="radio" name="Histology" value="Adenocarcinoma of fundic-gland type" data-label="Histologic Type" > Adenocarcinoma of fundic-gland type</label>
+            <label><input type="radio" name="Histology" value="Squamous cell carcinoma" data-label="Histologic Type" > Squamous cell carcinoma</label>
+            <label><input type="radio" name="Histology" value="Adenosquamous carcinoma" data-label="Histologic Type"> <span title ="Each componentshould >25%">Adenosquamous carcinoma</span></label>
+            <label><input type="radio" name="Histology" value="Undifferentiated (anaplastic) carcinoma" data-label="Histologic Type" > Undifferentiated (anaplastic) carcinoma</label>
+            <label><input type="radio" name="Histology" value="Gastroblastoma" data-label="Histologic Type" > Gastroblastoma</label>
+            <label><input type="radio" name="Histology" value="Large cell neuroendocrine carcinoma" data-label="Histologic Type" > Large cell NEC </label>
+            <label><input type="radio" name="Histology" value="Small cell neuroendocrine carcinoma" data-label="Histologic Type" > Small cell NEC</label>
+            <label><input type="radio" name="Histology" value="Neuroendocrine carcinoma (poorly differentiated)" data-label="Histologic Type"> <span title ="only if large cell or small cell cannot be determined"> NEC (poorly differentiated)</span></label>
+            <label><input type="radio" name="Histology" value="Mixed adenocarcinoma-neuroendocrine carcinoma (small cell or large cell neuroendocrine carcinoma)" data-label="Histologic Type" > <span title = "Each component should >30%">Mixed adenoCA-NEC</span></label>
+            <label><input type="radio" name="Histology" value="Mixed adenocarcinoma-neuroendocrine tumor" data-label="Histologic Type" > <span title = "Each component should >30%">Mixed adenoCA-NET </span></label>
+            <label><input type="radio" name="Histology" value="Other" data-label="Histologic Type" class = "has-text"> Other <input type="text" name="OtherHistology" data-label="Other Histologic Type"></label>
+
+
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Histologic Grade</span>
+            <h6> Moderate = 50-95% gland</h6>
+            <label><input type="radio" name="Grade" value="G1, well-differentiated" data-label="Histologic Grade"> G1, well-differentiated</label>
+            <label><input type="radio" name="Grade" value="G2, moderately differentiated" data-label="Histologic Grade" checked> G2, moderately differentiated</label>
+            <label><input type="radio" name="Grade" value="G3, poorly differentiated" data-label="Histologic Grade"> G3, poorly differentiated</label>
+            <label><input type="radio" name="Grade" value="G4, undifferentiated" data-label="Histologic Grade"> G4, undifferentiated</label>
+            <label><input type="radio" name="Grade" value="GX, cannot be assessed" data-label="Histologic Grade"> GX, cannot be assessed</label>
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Tumor Size</span>
+            <label><input type="radio" name="TumorSizeCheck" value="sizeAvailable" data-label="Tumor Size"> in cm =<input type="text" name="TumorSize" data-label="Tumor Size (cm)"></label>
+            <label><input type="radio" name="TumorSizeCheck" value="Cannot be determined" data-label="Tumor Size" onclick="resetOtherInputs(this)"> Cannot be determined</label>
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Tumor Site (Select all that apply)</span>
+            <h6>if the tumor involves the EGJ and the tumor midpoint is <2 cm into the proximal stomach -> use esophageal checklist</h6>
+            <label><input type="checkbox" name="TumorSite" value="Cardia" data-label="Tumor Site"> Cardia</label>
+            <label><input type="checkbox" name="TumorSite" value="Fundus" data-label="Tumor Site"> Fundus</label>
+            <label><input type="checkbox" name="TumorSite" value="Body" data-label="Tumor Site"> Body</label>
+            <label><input type="checkbox" name="TumorSite" value="Antrum" data-label="Tumor Site"> Antrum</label>
+            <label><input type="checkbox" name="TumorSite" value="Pylorus" data-label="Tumor Site"> Pylorus</label>
+            <label><input type="checkbox" name="TumorSite" value="Anterior wall" data-label="Tumor Site"> Anterior wall</label>
+            <label><input type="checkbox" name="TumorSite" value="Posterior wall" data-label="Tumor Site"> Posterior wall</label>
+            <label><input type="checkbox" name="TumorSite" value="Lesser curvature" data-label="Tumor Site"> Lesser curvature</label>
+            <label><input type="checkbox" name="TumorSite" value="Greater curvature" data-label="Tumor Site"> Greater curvature</label>
+            <label><input type="checkbox" name="TumorSite" value="Other" data-label="Tumor Site" class = "has-text"> Other <input type="text" name="TumorSite_Other"></label>
+            <label><input type="checkbox" name="TumorSite" value="Not specified" data-label="Tumor Site"> Not specified</label>
+        </div>
+
+              
+
+        <div class="question-block">
+            <span class="question-label">Tumor Extent</span>
+            <label><input type="radio" name="Extent" value="Carcinoma in situ/High grade dysplasia" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Carcinoma in situ/HG dysplasia</label>
+            <label><input type="radio" name="Extent" value="Lamina propria" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Lamina propria</label>
+            <label><input type="radio" name="Extent" value="Muscularis mucosae" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Muscularis mucosae</label>
+            <label><input type="radio" name="Extent" value="Submucosa" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Submucosa</label>
+            <label><input type="radio" name="Extent" value="Muscularis propria" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Muscularis propria</label>
+            <label><input type="radio" name="Extent" value="Subserosa connective tissue" data-label="Tumor Extent" onclick="resetOtherInputs(this)" checked> Subserosa connective tissue</label>
+            <label><input type="radio" name="Extent" value="Serosa" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Serosa </label>
+            <label><input type="radio" name="Extent" value="Adjacent organ" data-label="Tumor Extent" class="has-text"> Adjacent organ <input type="text" name="Extent_Structure"></label>
+            <label><input type="radio" name="Extent" value="Cannot be determined" data-label="Tumor Extent" onclick="resetOtherInputs(this)"> Cannot be determined</label>
+        </div>
+
+
+        <div class="question-block">
+            <span class="question-label">Lymphatic and/or Vascular Invasion (LVI)</span>
+            <label><input type="radio" name="LVI" value="Not identified" data-label="Lymphovascular invasion" checked>Not identified</label>
+            <label><input type="radio" name="LVI" value="Present" data-label="Lymphovascular invasion" >Present</label>
+            <label><input type="radio" name="LVI" value="Cannot be determined" data-label="Lymphovascular invasion"> Cannot be determined</label>            
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Perineural Invasion</span>
+            <label><input type="radio" name="PNI" value="Not identified" data-label="Perineural Invasion" checked> Not identified</label>
+            <label><input type="radio" name="PNI" value="Present" data-label="Perineural Invasion"> Present</label>
+            <label><input type="radio" name="PNI" value="Cannot be determined" data-label="Perineural Invasion"> Cannot be determined</label>
+        </div>
+
+        <div class="question-block">
+            <span class="question-label">Treatment Effect</span>
+            <label><input type="radio" name="TreatmentEffect" value="No known presurgical therapy" data-label="Treatment Effect" checked> No known presurgical therapy</label>
+            <label><input type="radio" name="TreatmentEffect" value="Score 0 (Complete Response)" data-label="Treatment Effect"> <span title = "No viable cancer cells">Score 0 (Complete Response)</span></label>
+            <label><input type="radio" name="TreatmentEffect" value="Score 1 (Near Complete Response)" data-label="Treatment Effect"> <span title = "Single/rare small group tumor cells">Score 1 (Near Complete Response)</span></label>
+            <label><input type="radio" name="TreatmentEffect" value="Score 2 (Partial Response)" data-label="Treatment Effect"> <span title = "Residual cancer with evidence of regression, but more than single cells or rare small groups of cancer cells">Score 2 (Partial Response)</span></label>
+            <label><input type="radio" name="TreatmentEffect" value="Score 3 (Poor/No Response)" data-label="Treatment Effect"> <span title = "Extensive residual cancer and no evident tumor regression">Score 3 (Poor/No Response)</span></label>
+            <label><input type="radio" name="TreatmentEffect" value="Cannot be determined" data-label="Treatment Effect"> Cannot be determined</label>
+        </div>
+
+        <h2>Margins</h2>
+        <div class="question-block">
+            <H3>Margin status for invasive carcinoma</H3>
+            <label><input type="radio" name="MarginStatus_CA" value="All margins negative" data-label="Margin Status" class="has-text" checked> All margins negative for invasive carcinoma, closest distance <input type="text" name="MarginDistance" placeholder ="cm"></label>
+            <label class="has-text"><input type="radio" name="MarginStatus_CA" value="Invasive carcinoma present" data-label="Margin Status" onclick="resetOtherInputs(this)"> Positive margin</label>
+            <h5>Select margin</h5>
+            <label><input type="checkbox" name="SpecifyMargin_CA" value="proximal" > Proximal</label>
+            <label><input type="checkbox" name="SpecifyMargin_CA" value="distal" > Distal</label>
+            <label><input type="checkbox" name="SpecifyMargin_CA" value="omental/radial" > Omental/Radial</label>
+            <label><input type="checkbox" name="SpecifyMargin_CA" value="mucosal" > Mucosal</label>
+            <label><input type="checkbox" name="SpecifyMargin_CA" value="deep" > Deep</label>
+            <label><input type="checkbox" name="SpecifyMargin_CA" value="Other" class="has-text"><input type="text" placeholder="Specify other margin"></label>
+            <H3>Margin status for High-grade dysplasia</H3>
+            <label><input type="radio" name="MarginStatus_HGD" value="All margins negative for HG dysplasia" data-label="Margin Status" checked> All margins negative for HG dysplasia</label>
+            <label class="has-text"><input type="radio" name="MarginStatus_HGD" value="HG dysplasia present" data-label="Margin Status"> HG dysplasia present</label>
+            <div id="specifyMargin_HGD_container" style="display:none;">
+                <h5>Select margin</h5>
+                <label><input type="checkbox" name="SpecifyMargin_HGD" value="proximal"> Proximal</label>
+                <label><input type="checkbox" name="SpecifyMargin_HGD" value="distal"> Distal</label>
+                <label><input type="checkbox" name="SpecifyMargin_HGD" value="omental/radial"> Omental/Radial</label>
+                <label><input type="checkbox" name="SpecifyMargin_HGD" value="mucosal"> Mucosal</label>
+                <label><input type="checkbox" name="SpecifyMargin_HGD" value="deep"> Deep</label>
+                <label><input type="checkbox" name="SpecifyMargin_HGD" value="Other" class="has-text"><input type="text" placeholder="Specify other margin"></label>
+            </div>
+            <H3>Margin status for Low-grade dysplasia</H3>
+            <label><input type="radio" name="MarginStatus_LGD" value="All margins negative for LG dysplasia" data-label="Margin Status" checked> All margins negative for LG dysplasia</label>
+            <label class="has-text"><input type="radio" name="MarginStatus_LGD" value="LG dysplasia present" data-label="Margin Status"> LG dysplasia present </label>
+            <div id="specifyMargin_LGD_container" style="display:none;">
+                <h5>Select margin</h5>
+                <label><input type="checkbox" name="SpecifyMargin_LGD" value="proximal"> Proximal</label>
+                <label><input type="checkbox" name="SpecifyMargin_LGD" value="distal"> Distal</label>
+                <label><input type="checkbox" name="SpecifyMargin_LGD" value="omental/radial"> Omental/Radial</label>
+                <label><input type="checkbox" name="SpecifyMargin_LGD" value="mucosal"> Mucosal</label>
+                <label><input type="checkbox" name="SpecifyMargin_LGD" value="deep"> Deep</label>
+                <label><input type="checkbox" name="SpecifyMargin_LGD" value="Other" class="has-text"><input type="text" placeholder="Specify other margin"></label>
+            </div>
+        </div>
+
+        
+
+        <h2>Regional Lymph Nodes</h2>
+        <div class="question-block">
+            <span class="question-label">Regional Lymph Node Status</span>
+            <label>
+                <input type="radio" name="LN_Radio" data-label="Lymph node metastasis" id="ln_ratio_radio">
+                <input type="text" id="ln_meta" name="LNStatus_Meta" placeholder="Positive" size="3" oninput="calculatePN()"> / 
+                <input type="text" id="ln_total" name="LNStatus_Total" placeholder="Total" size="3">
+            </label>
+            <label><input type="radio" name="LN_Radio" value="Not applicable" data-label="Lymph node metastasis" onclick="resetOtherInputs(this)"> Not applicable</label>
+        <span class="tooltip"><button type="button" class="info-btn">Isolated tumor cells</button><span class="tooltiptext">Single tumor cells / small clusters < 0.2 mm = pN0</span></span>
+        <span class="tooltip"><button type="button" class="info-btn">Tumor deposit</button><span class="tooltiptext">Discrete tumor nodules within the lymph drainage area of the primary carcinoma without identifiable lymph node tissue or identifiable vascular or neural structure.
+        are considered as regional lymph node metastases </span></span>
+        <span class="tooltip"><button type="button" class="info-btn">Nodules on peritoneal surface</button><span class="tooltiptext">Considered distant metastases (M1)</span></span>
+        <span class="tooltip"><button type="button" class="info-btn">Regional lymph node list</button><span class="tooltiptext">
+            <ul style="margin: 4px 0 0 0; padding-left: 16px;">
+            <li>Perigastric along the greater curvature (including greater curvature, greater omental)</li>
+                <li>Perigastric along the lesser curvature (including lesser curvature, lesser omental)</li>
+                <li>Right and left paracardial (cardioesophageal)</li>
+                <li>Suprapyloric (including gastroduodenal)</li>
+                <li>Infrapyloric (including gastroepiploic)</li>
+                <li>Left gastric artery</li>
+                <li>Celiac artery</li>
+                <li>Common hepatic artery</li>
+                <li>Hepatoduodenal (along the proper hepatic artery, including portal)</li>
+                <li>Splenic artery</li>
+                <li>Splenic hilum</li>
+        </ul></span></span>
+        </div>
+
+
+        <h2>Additional Findings</h2>
+        <div class="question-block">
+            <span class="question-label">Select all that apply</span>
+            <label><input type="checkbox" name="AddFindings" value="Intestinal metaplasia" data-label="Additional Findings">Intestinal metaplasia</label>
+            <label><input type="checkbox" name="AddFindings" value="Low grade dysplasia" data-label="Additional Findings">Low grade dysplasia</label>
+            <label><input type="checkbox" name="AddFindings" value="High grade dysplasia" data-label="Additional Findings">High grade dysplasia</label>
+            <label><input type="checkbox" name="AddFindings" value="Chronic gastritis" data-label="Additional Findings">Chronic gastritis</label>
+            <label><input type="checkbox" name="AddFindings" value="Other" data-label="Additional Findings" class="has-text"><input type="text" name="Other"></label>
+        </div>
+
+        
+        <h2>pTNM Classification (AJCC 8th Ed)</h2>
+        <div class="question-block">
+            <span class="question-label" id = "TModifier">Prefix/Suffix</span>
+            <label><input type="checkbox" name="prefix" value="y" data-label="y_post treatment">y (post neoadjuvant therapy)</label>
+            <label><input type="checkbox" name="prefix" value="r" data-label="r_recurrent">r (recurrent)</label>
+            <label><input type="checkbox" name="suffix" value="m" data-label="m_multiple">m (multiple primary)</label>
+        </div>
+        
+        <div class="question-block">
+            <span class="question-label" id="TStage">pT Category</span>
+            <label><input type="radio" name="pT" value="pT not assigned (cannot be determined based on available pathological information)" data-label="pT Category"> pT not assigned (cannot be determined based on available pathological information) </label>
+            <label><input type="radio" name="pT" value="pT0" data-label="pT Category"> pT0: No evidence of primary tumor</label>
+            <label><input type="radio" name="pT" value="pT1" data-label="pT Category"> pT1 (subcategory cannot be determined) </label>
+            <label><input type="radio" name="pT" value="pT1a" data-label="pT Category"> pT1a: Tumor invades the lamina propria or muscularis mucosa </label>
+            <label><input type="radio" name="pT" value="pT1b" data-label="pT Category"> pT1b: Tumor invades the submucosa </label>
+            <label><input type="radio" name="pT" value="pT2" data-label="pT Category"> pT2: Tumor invades the musclaris propria </label>
+            <label><input type="radio" name="pT" value="pT3" data-label="pT Category"> pT3: Tumor invades subserosa connective tissue</label>
+            <label><input type="radio" name="pT" value="pT4" data-label="pT Category"> pT4 (subcategory cannot be determined) </label>
+            <label><input type="radio" name="pT" value="pT4a" data-label="pT Category"> pT4a: Tumor invades serosa (visceral peritoneum) </label>
+            <label><input type="radio" name="pT" value="pT4b" data-label="pT Category"> pT4b: Tumor invades adjacent structures/organs </label>
+        </div>
+
+        <div class="question-block" id="pn-category-section">
+            <span class="question-label" id="NStage">pN Category</span>
+            <label><input type="radio" name="N" value="N Not assign (no nodes submitted or found)" data-label="N Category"> N not assigned (no nodes submitted or found) </label>
+            <label><input type="radio" name="N" value="N Not assign (cannot be determined based on available pathological information)" data-label="N Category"> N not assigned (cannot be determined based on available pathological information) </label>
+            <label><input type="radio" name="N" value="N0" data-label="N Category"> N0: No regional LN metastasis</label>
+            <label><input type="radio" name="N" value="N1" data-label="N Category"> N1: Positive 1-2 nodes</label>
+            <label><input type="radio" name="N" value="N2" data-label="N Category"> N2: Positive 3-6 nodes</label>
+            <label><input type="radio" name="N" value="N3a" data-label="N Category"> N3a: Positive 7-15 nodes </label>
+            <label><input type="radio" name="N" value="N3b" data-label="N Category"> N3b: Positive 16+ nodes </label>
+        </div>
+
+        <div class="question-block" id="MStage">
+            <span class="question-label">pM Category</span>
+            <label><input type="radio" name="M" value="M Not applicable:" data-label="M Category" checked> M Not applicable - pM cannot be determined from the submitted specimen(s)</label>
+            <label><input type="radio" name="M" value="M1" data-label="M Category"> M1: Distance metastasis</label>
+        </div>
+
+        
+
+    </form>
+
+    <div class="synoptic-container">       
+        <div class="synoptic-title">Synoptic Report</div>
+        <ul id="synopticList" class="synoptic-list">
+            <li class="synoptic-item">Please select options above to generate the report.</li>
+        </ul>
+        <button type="button" id="copyBtn" onclick="copyReport()" style="padding: 5px 15px; cursor: pointer; background-color: #1abc9c; color: white; border: none; border-radius: 4px; font-weight: bold;">
+            Copy Report
+        </button>
+    </div>
+
+<script>
+    function copyReport() {
+        const listItems = document.querySelectorAll('#synopticList li');
+        if (!listItems.length || listItems[0].innerText.includes("Please select")) {
+            alert("Report is empty.");
+            return;
+        }
+        const reportText = Array.from(listItems).map(li => {
+            const subItems = li.querySelectorAll('ul li');
+            if (subItems.length) {
+                const header = `• ${li.childNodes[0].textContent.trim()}`;
+                const subs = Array.from(subItems).map(s => `         ${s.textContent.trim()}`).join('\n');
+                return `${header}\n${subs}`;
+            }
+            return `• ${li.innerText}`;
+        }).join('\n');
+        navigator.clipboard.writeText(reportText).then(() => {
+            alert("Report copied to clipboard!");
+        });
+    }
+
+    function toggleSub(containerId, show) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.style.display = show ? 'block' : 'none';
+    }
+
+    function resetOtherInputs(element) {
+        const radioGroup = Array.from(document.getElementsByName(element.name));
+        radioGroup.forEach(radio => {
+            if (radio === element) return;
+            const otherInput = radio.parentElement.querySelector('input[type="text"], input[type="number"]');
+            if (otherInput) otherInput.value = '';
+        });
+    }
+
+    // Must be global so oninput="calculatePN()" in HTML can reach it
+    function calculatePN() {
+        const positiveNodes = parseInt(document.getElementById('ln_meta').value);
+        if (!isNaN(positiveNodes)) {
+            document.getElementById('ln_ratio_radio').checked = true;
+        }
+        let targetValue = "";
+        if (positiveNodes === 0)                                    targetValue = "N0";
+        else if (positiveNodes <= 2)                                targetValue = "N1";
+        else if (positiveNodes >= 3  && positiveNodes <= 6)         targetValue = "N2";
+        else if (positiveNodes >= 7  && positiveNodes <= 15)        targetValue = "N3a";
+        else if (positiveNodes >= 16)                               targetValue = "N3b";
+        if (targetValue) {
+            // pN radios have no IDs — select by value prefix
+            const nRadio = document.querySelector(`input[name="N"][value^="${targetValue}"]`);
+            if (nRadio) nRadio.checked = true;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('capForm');
+        const reportList = document.getElementById('synopticList');
+        const inputs = form.querySelectorAll('input');
+
+        // Toggle adenocarcinoma subtype panel when Histology radio changes
+        document.getElementsByName('Histology').forEach(radio => {
+            radio.addEventListener('change', () => {
+                toggleSub('adeno_subtype', radio.value === 'Adenocarcinoma');
+            });
+        });
+
+        // Show/hide and reset SpecifyMargin checkboxes for HGD and LGD
+        function setupMarginToggle(radioName, containerId, checkboxName) {
+            document.getElementsByName(radioName).forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const isPresent = radio.value.toLowerCase().includes('present');
+                    toggleSub(containerId, isPresent);
+                    if (!isPresent) {
+                        document.getElementsByName(checkboxName).forEach(cb => {
+                            cb.checked = false;
+                            if (cb.classList.contains('has-text')) {
+                                const txt = cb.parentElement.querySelector('input[type="text"]');
+                                if (txt) txt.value = '';
+                            }
+                        });
+                    }
+                });
+            });
+        }
+        setupMarginToggle('MarginStatus_HGD', 'specifyMargin_HGD_container', 'SpecifyMargin_HGD');
+        setupMarginToggle('MarginStatus_LGD', 'specifyMargin_LGD_container', 'SpecifyMargin_LGD');
+
+        document.querySelector('input[name="LN_Radio"][value="Not applicable"]').addEventListener('change', function() {
+            document.getElementById('ln_meta').value = '';
+            document.getElementById('ln_total').value = '';
+            const nNotAssign = document.querySelector('input[name="N"][value="N Not assign (no nodes submitted or found)"]');
+            if (nNotAssign) nNotAssign.checked = true;
+        });
+
+        function calculatePT() {
+            const extentValue = document.querySelector('input[name="Extent"]:checked')?.value;
+            if (!extentValue) return;
+
+            let targetValue = "";
+            // Use exact value matching (case-sensitive, matching the radio values in the form)
+            if (extentValue === "Carcinoma in situ/High grade dysplasia") targetValue = "pT0";
+            else if (extentValue === "Lamina propria" || extentValue === "Muscularis mucosae") targetValue = "pT1a";
+            else if (extentValue === "Submucosa")                   targetValue = "pT1b";
+            else if (extentValue === "Muscularis propria")          targetValue = "pT2";
+            else if (extentValue === "Subserosa connective tissue") targetValue = "pT3";
+            else if (extentValue === "Serosa")                          targetValue = "pT4a";
+            else if (extentValue === "Adjacent organ")                   targetValue = "pT4b";
+            else if (extentValue === "Cannot be determined")              targetValue = "pT not assigned (cannot be determined based on available pathological information)";
+            if (targetValue) {
+                const tRadio = document.querySelector(`input[name="pT"][value^="${targetValue}"]`);
+                if (tRadio) tRadio.checked = true;
+            }
+        }
+
+        function updateReport() {
+            reportList.innerHTML = '';
+            const data = {};
+
+            const orderedLabels = [
+                "Histologic Type",
+                "Histologic Grade",
+                "Tumor Size",
+                "Tumor Site",
+                "Tumor Extent",
+                "Lymphovascular invasion",
+                "Perineural Invasion",
+                "Treatment Effect",
+                "Margin Status",
+                "Lymph node metastasis",
+                "Additional Findings"
+            ];
+
+            orderedLabels.forEach(label => {
+
+                // --- Special: Tumor Size ---
+                if (label === "Tumor Size") {
+                    const sizeAvail = document.querySelector('input[name="TumorSizeCheck"][value="sizeAvailable"]:checked');
+                    const cannotDet = document.querySelector('input[name="TumorSizeCheck"][value="Cannot be determined"]:checked');
+                    if (sizeAvail) {
+                        const sizeNum = document.querySelector('input[name="TumorSize"]')?.value.trim();
+                        if (sizeNum) data["Tumor Size"] = [`${sizeNum} cm`];
+                    } else if (cannotDet) {
+                        data["Tumor Size"] = ["Cannot be determined"];
+                    }
+                    return;
+                }
+
+                // --- Special: Lymph node metastasis ---
+                if (label === "Lymph node metastasis") {
+                    const ratioRadio = document.getElementById('ln_ratio_radio');
+                    const notApplicable = document.querySelector('input[name="LN_Radio"][value="Not applicable"]:checked');
+                    if (ratioRadio && ratioRadio.checked) {
+                        const posVal = parseFloat(document.getElementById('ln_meta')?.value) || 0;
+                        const totVal = document.getElementById('ln_total')?.value || "0";
+                        const status = posVal > 0 ? "Present" : "Not identified";
+                        data["Lymph node metastasis"] = [`${status} (${posVal}/${totVal})`];
+                    } else if (notApplicable) {
+                        data["Lymph node metastasis"] = ["Not applicable"];
+                    }
+                    return;
+                }
+
+                // --- Special: Margin Status ---
+                if (label === "Margin Status") {
+                    const subItems = [];
+
+                    // Invasive carcinoma
+                    const caChecked = document.querySelector('input[name="MarginStatus_CA"]:checked');
+                    if (caChecked) {
+                        if (caChecked.value.startsWith("All margins negative")) {
+                            const dist = document.querySelector('input[name="MarginDistance"]')?.value.trim();
+                            const margins = Array.from(document.querySelectorAll('input[name="SpecifyMargin_CA"]:checked')).map(i => i.value);
+                            let caText = 'Invasive carcinoma: All margins negative';
+                            if (dist || margins.length) {
+                                const parts = [];
+                                if (dist) parts.push(`closest ${dist} cm`);
+                                if (margins.length) parts.push(`at ${margins.join(', ')} margin`);
+                                caText += ` (${parts.join(', ')})`;
+                            }
+                            subItems.push(caText);
+                        } else {
+                            const margins = Array.from(document.querySelectorAll('input[name="SpecifyMargin_CA"]:checked')).map(i => i.value);
+                            let caText = 'Invasive carcinoma: Positive margin';
+                            if (margins.length) caText += ` at ${margins.join(', ')}`;
+                            subItems.push(caText);
+                        }
+                    }
+
+                    // High-grade dysplasia
+                    const hgdChecked = document.querySelector('input[name="MarginStatus_HGD"]:checked');
+                    if (hgdChecked) {
+                        if (hgdChecked.value.startsWith("All margins negative")) {
+                            subItems.push('High-grade dysplasia: All margins negative');
+                        } else {
+                            const margins = Array.from(document.querySelectorAll('input[name="SpecifyMargin_HGD"]:checked')).map(i => i.value);
+                            let hgdText = 'High-grade dysplasia: Present';
+                            if (margins.length) hgdText += ` at ${margins.join(', ')} margin`;
+                            subItems.push(hgdText);
+                        }
+                    }
+
+                    // Low-grade dysplasia
+                    const lgdChecked = document.querySelector('input[name="MarginStatus_LGD"]:checked');
+                    if (lgdChecked) {
+                        if (lgdChecked.value.startsWith("All margins negative")) {
+                            subItems.push('Low-grade dysplasia: All margins negative');
+                        } else {
+                            const margins = Array.from(document.querySelectorAll('input[name="SpecifyMargin_LGD"]:checked')).map(i => i.value);
+                            let lgdText = 'Low-grade dysplasia: Present';
+                            if (margins.length) lgdText += ` at ${margins.join(', ')} margin`;
+                            subItems.push(lgdText);
+                        }
+                    }
+
+                    if (subItems.length) data["Margin Status"] = { type: 'sublist', items: subItems };
+                    return;
+                }
+
+                // --- General field handling ---
+                const fieldInputs = Array.from(inputs).filter(i => i.getAttribute('data-label') === label);
+
+                fieldInputs.forEach(input => {
+                    if (!input.checked) return;
+                    let val = input.value;
+
+                    const hasText = input.classList.contains('has-text') || input.parentElement.classList.contains('has-text');
+                    if (hasText) {
+                        const txt = input.parentElement.querySelector('input[type="text"], input[type="number"]')?.value.trim();
+                        if (txt) {
+                            if (label === "Margin Status" && val.startsWith("All margins negative")) {
+                                val = `${val}, closest distance: ${txt} cm`;
+                            } else {
+                                val = txt;
+                            }
+                        }
+                    }
+
+                    if (!data[label]) data[label] = [];
+                    data[label].push(val);  // push was missing in original
+                });
+
+                // Append adenocarcinoma subtype inline with histologic type
+                if (label === "Histologic Type" && data["Histologic Type"]) {
+                    const histVal = document.querySelector('input[name="Histology"]:checked')?.value;
+                    if (histVal === "Adenocarcinoma") {
+                        const subtype = document.querySelector('input[name="AdenoSubtype"]:checked')?.value;
+                        if (subtype && data["Histologic Type"].length > 0) {
+                            data["Histologic Type"][0] += ` (${subtype})`;
+                        }
+                    }
+                }
+            });
+
+            // TNM Classification (always last, outside the forEach)
+            const prefixes = Array.from(document.querySelectorAll('input[name="prefix"]:checked')).map(i => i.value).join('');
+            const suffixes = Array.from(document.querySelectorAll('input[name="suffix"]:checked')).map(i => i.value).join('');
+            const pT = document.querySelector('input[name="pT"]:checked')?.value.split(':')[0].trim() || '';
+            const pN = document.querySelector('input[name="N"]:checked')?.value.split(':')[0].trim() || '';
+            const pM = document.querySelector('input[name="M"]:checked')?.value.split(':')[0].trim() || '';
+            if (pT || pN || pM) {
+                data["TNM Classification"] = [`${prefixes}${pT}${suffixes} ${pN} ${pM}`.trim()];
+            }
+
+            // Build output
+            if (Object.keys(data).length === 0) {
+                reportList.innerHTML = '<li class="synoptic-item">Please select options above to generate the report.</li>';
+                return;
+            }
+            for (const [key, value] of Object.entries(data)) {
+                const li = document.createElement('li');
+                li.className = 'synoptic-item';
+                if (value && value.type === 'sublist') {
+                    li.innerHTML = `<strong>${key}:</strong>`;
+                    const ul = document.createElement('ul');
+                    ul.style.listStyleType = 'none';
+                    ul.style.paddingLeft = '20px';
+                    ul.style.marginTop = '3px';
+                    value.items.forEach(item => {
+                        const subLi = document.createElement('li');
+                        subLi.className = 'synoptic-item';
+                        subLi.textContent = `- ${item}`;
+                        ul.appendChild(subLi);
+                    });
+                    li.appendChild(ul);
+                } else {
+                    li.innerHTML = `<strong>${key}:</strong> ${Array.isArray(value) ? value.join(', ') : value}`;
+                }
+                reportList.appendChild(li);
+            }
+        }
+
+        document.getElementsByName('Extent').forEach(radio => {
+            radio.addEventListener('change', () => {
+                calculatePT();
+                updateReport();
+            });
+        });
+
+        inputs.forEach(input => {
+            input.addEventListener('change', () => {
+                updateReport();
+            });
+            input.addEventListener('input', () => {
+                if (input.id === 'ln_meta') calculatePN();
+                updateReport();
+            });
+        });
+
+        calculatePT();  // Set pT based on default extent on load
+        updateReport(); // Render defaults on load
+    });
+</script>
+
+</body>
+</html>
